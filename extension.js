@@ -17,8 +17,7 @@ function enable() {
     });
 
     this.mainMenu.addMenuItem(this.disturbToggle);
-    // Todo find if do not disturb already enabled
-
+    this.disturbToggle.setToggleState(is_do_not_disturb());
 }
 
 function set_do_not_disturb(enabled) {
@@ -26,11 +25,12 @@ function set_do_not_disturb(enabled) {
     settings.set_boolean('show-banners', !enabled);
 }
 
+function is_do_not_disturb() {
+  let settings = new Gio.Settings({ schema_id: 'org.gnome.desktop.notifications' });
+  return !settings.get_boolean('show-banners');
+}
+
 function disable() {
-    // if (this.light) {
-    //     this.light.destroy();
-    //     this.light = 0;
-    // }
     if(this.disturbToggle){
       this.disturbToggle.destroy();
       this.disturbToggle = 0;
