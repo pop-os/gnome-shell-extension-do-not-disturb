@@ -3,13 +3,15 @@ const PopupMenu = imports.ui.popupMenu;
 const Ornament = imports.ui.popupMenu.Ornament;
 const Util = imports.misc.util;
 const St = imports.gi.St;
+const Gio = imports.gi.Gio;
 
 function init() {}
 
 function enable() {
-    this.mainMenu = Main.panel.statusArea['aggregateMenu'].menu;
+    this.mainMenu = Main.panel.statusArea['dateMenu'].menu;
 
-    this.disturbToggle = new PopupMenu.PopupSwitchMenuItem("Do Not Disturb");
+
+    this.disturbToggle = new PopupMenu.PopupSwitchMenuItem("Do not disturb");
     this.disturbToggle.connect("toggled", (item, event) => {
       this.set_do_not_disturb(event);
     });
@@ -20,7 +22,8 @@ function enable() {
 }
 
 function set_do_not_disturb(enabled) {
-    Util.trySpawn(["gsettings", "set", "org.gnome.desktop.notifications", "show-banners", (!enabled).toString()]);
+    let settings = new Gio.Settings({ schema_id: 'org.gnome.desktop.notifications' });
+    settings.set_boolean('show-banners', !enabled);
 }
 
 function disable() {
