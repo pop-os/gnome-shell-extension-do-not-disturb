@@ -11,14 +11,18 @@ function init() {}
 function enable() {
     this.mainMenu = Main.panel.statusArea['dateMenu'].menu;
 
-    // this.disturbSwitch = new PopupMenu.Switch();
+    this.calendarBox = Main.panel.statusArea.dateMenu._messageList._clearButton.get_parent();
 
     this.disturbToggle = new PopupMenu.PopupSwitchMenuItem("Do not disturb");
+
+
     this.disturbToggle.connect("toggled", (item, event) => {
       this.set_do_not_disturb(event);
     });
 
-    this.mainMenu.addMenuItem(this.disturbToggle);
+    // this.disturbToggle.actor.set_x_align(Clutter.ActorAlign.START);
+    this.calendarBox.add_actor(this.disturbToggle.actor);
+
     // this.mainMenu.addMenuItem(this.disturbSwitch);
     this.disturbToggle.setToggleState(is_do_not_disturb());
 }
