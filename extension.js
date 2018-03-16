@@ -4,12 +4,14 @@ const Ornament = imports.ui.popupMenu.Ornament;
 const Util = imports.misc.util;
 const St = imports.gi.St;
 const Gio = imports.gi.Gio;
+// const Gtk = imports.gi.Gtk;
 
 function init() {}
 
 function enable() {
     this.mainMenu = Main.panel.statusArea['dateMenu'].menu;
 
+    // this.disturbSwitch = new PopupMenu.Switch();
 
     this.disturbToggle = new PopupMenu.PopupSwitchMenuItem("Do not disturb");
     this.disturbToggle.connect("toggled", (item, event) => {
@@ -17,6 +19,7 @@ function enable() {
     });
 
     this.mainMenu.addMenuItem(this.disturbToggle);
+    // this.mainMenu.addMenuItem(this.disturbSwitch);
     this.disturbToggle.setToggleState(is_do_not_disturb());
 }
 
