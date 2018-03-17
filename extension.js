@@ -36,17 +36,24 @@ function enable() {
 
     this.calendarBox.add_actor(this.clearBox);
 
-    this.disturbToggle.setToggleState(is_do_not_disturb());
+    this.settings = new Gio.Settings({ schema_id: 'org.gnome.desktop.notifications'});
+    this.settings.connect('changed::show-banners', function() {
+      reflect_toggle_state();
+    });
+
+    reflect_toggle_state();
+}
+
+function reflect_toggle_state(){
+  this.disturbToggle.setToggleState(is_do_not_disturb());
 }
 
 function set_do_not_disturb(enabled) {
-    let settings = new Gio.Settings({ schema_id: 'org.gnome.desktop.notifications' });
-    settings.set_boolean('show-banners', !enabled);
+    this.settings.set_boolean('show-banners', !enabled);
 }
 
 function is_do_not_disturb() {
-  let settings = new Gio.Settings({ schema_id: 'org.gnome.desktop.notifications' });
-  return !settings.get_boolean('show-banners');
+  return !this.settings.get_boolean('show-banners');
 }
 
 function disable() {
