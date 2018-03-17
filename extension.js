@@ -1,13 +1,10 @@
 const Main = imports.ui.main;
 const PopupMenu = imports.ui.popupMenu;
-const Ornament = imports.ui.popupMenu.Ornament;
-const Util = imports.misc.util;
 const St = imports.gi.St;
-const Gio = imports.gi.Gio;
 const Clutter = imports.gi.Clutter;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Settings = Me.imports.settings_manager; 
+const Settings = Me.imports.settings; 
 
 
 function init() {
@@ -37,8 +34,6 @@ function enable() {
     this.disturbToggle.actor.set_x_expand(true);
     this.disturbToggle.actor.track_hover = false;
 
-    this.disturbToggle.connect("toggled", (item, event) => _toggle());
-
     this.disturbToggle.actor.set_x_align(Clutter.ActorAlign.START);
     this.disturbToggle.actor.remove_child(this.disturbToggle.label);
     this.disturbToggle.actor.add_child(this.disturbToggle.label);
@@ -55,8 +50,10 @@ function enable() {
 
     this.settings = new Settings.SettingsManager();
 
-    this.settings.onDoNotDisturbChanged(this._sync);
-    this.settings.onShowIconChanged(this._sync);
+    this.disturbToggle.connect("toggled", (item, event) => _toggle());
+
+    this.settings.onDoNotDisturbChanged(() => _sync());
+    this.settings.onShowIconChanged(() => _sync());
 
     this._sync();
 }
@@ -83,7 +80,7 @@ function disable() {
 }
 
 function _toggle(){
-  let status = isDoNotDisturb();
+  let status = this.settings.isDoNotDisturb();
   this.settings.setDoNotDisturb(!status);
   this._sync();
 }
