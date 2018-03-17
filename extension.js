@@ -6,15 +6,11 @@ const St = imports.gi.St;
 const Gio = imports.gi.Gio;
 const Clutter = imports.gi.Clutter;
 
-const Gettext = imports.gettext.domain('org-gnome-shell-extension-kylecorry31-do-not-disturb');
-const _ = Gettext.gettext;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Lib = Me.imports.lib;
+const Settings = Me.imports.settings_manager; 
 
-let _settings;
 
 function init() {
-  _settings = Lib.getSettings(Me);
 }
 
 function enable() {
@@ -56,21 +52,12 @@ function enable() {
 
     this.calendarBox.add_actor(this.clearBox);
 
-    this.settings = new Gio.Settings({ schema_id: 'org.gnome.desktop.notifications'});
-    this.settings.connect('changed::show-banners', () => _sync());
+    this.settings = new Settings.SettingsManager();
 
-    _settings.connect('changed::show-icon', () => _sync());
+    this.settings.onDoNotDisturbChanged(this._sync);
+    this.settings.onShowIconChanged(this._sync);
 
     this._sync();
-}
-
-function set_do_not_disturb(enabled) {
-    this.settings.set_boolean('show-banners', !enabled);
-    this._sync();
-}
-
-function is_do_not_disturb() {
-  return !this.settings.get_boolean('show-banners');
 }
 
 function disable() {
@@ -95,14 +82,14 @@ function disable() {
 }
 
 function _toggle(){
-  let status = is_do_not_disturb();
-  this.settings.set_boolean('show-banners', status);
+  let status = isDoNotDisturb();
+  this.settings.setDoNotDisturb(!status);
   this._sync();
 }
 
 function _sync(){
-  let enabled = is_do_not_disturb();
-  let showIcon = _settings.get_boolean("show-icon");
+  let enabled = this.settings.isDoNotDisturb();
+  let showIcon = this.settings.shouldShowIcon();
   if(enabled && showIcon){
         this.indicatorArea.insert_child_at_index(this.enabledIcon, 0);
   } else {
