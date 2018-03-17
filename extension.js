@@ -6,9 +6,25 @@ const St = imports.gi.St;
 const Gio = imports.gi.Gio;
 const Clutter = imports.gi.Clutter;
 
-function init() {}
+const Gettext = imports.gettext.domain('org-gnome-shell-extension-kylecorry31-do-not-disturb');
+const _ = Gettext.gettext;
+const Me = imports.misc.extensionUtils.getCurrentExtension();
+const Lib = Me.imports.lib;
+
+let _settings;
+
+function init() {
+  _settings = Lib.getSettings(Me);
+}
 
 function enable() {
+    this.indicatorArea = Main.panel.statusArea.aggregateMenu._indicators;
+
+    this.enabledIcon = new St.Icon({
+            icon_name: 'notification-disabled-symbolic',
+            style_class: 'popup-menu-icon'
+    });
+
     this.clearButton = Main.panel.statusArea.dateMenu._messageList._clearButton;
     this.clearButtonHeight = this.clearButton.get_height();
 
@@ -24,9 +40,7 @@ function enable() {
     this.disturbToggle.actor.add_style_class_name('do-not-disturb');
     this.disturbToggle.actor.set_x_expand(true);
 
-    this.disturbToggle.connect("toggled", (item, event) => {
-      this.set_do_not_disturb(event);
-    });
+    this.disturbToggle.connect("toggled", (item, event) => _toggle());
 
     this.disturbToggle.actor.set_x_align(Clutter.ActorAlign.START);
     this.disturbToggle.actor.remove_child(this.disturbToggle.label);
@@ -43,19 +57,16 @@ function enable() {
     this.calendarBox.add_actor(this.clearBox);
 
     this.settings = new Gio.Settings({ schema_id: 'org.gnome.desktop.notifications'});
-    this.settings.connect('changed::show-banners', function() {
-      reflect_toggle_state();
-    });
+    this.settings.connect('changed::show-banners', () => _sync());
 
-    reflect_toggle_state();
-}
+    _settings.connect('changed::show-icon', () => _sync());
 
-function reflect_toggle_state(){
-  this.disturbToggle.setToggleState(is_do_not_disturb());
+    this._sync();
 }
 
 function set_do_not_disturb(enabled) {
     this.settings.set_boolean('show-banners', !enabled);
+    this._sync();
 }
 
 function is_do_not_disturb() {
@@ -75,4 +86,28 @@ function disable() {
       this.clearBox.destroy();
       this.clearBox = 0;
     }
+
+    if(this.enabledIcon){
+      this.indicatorArea.remove_child(this.enabledIcon);
+      this.enabledIcon.destroy();
+      this.enabledIcon = 0;
+    }
+}
+
+function _toggle(){
+  let status = is_do_not_disturb();
+  this.settings.set_boolean('show-banners', status);
+  this._sync();
+}
+
+function _sync(){
+  let enabled = is_do_not_disturb();
+  let showIcon = _settings.get_boolean("show-icon");
+  if(enabled && showIcon){
+        this.indicatorArea.insert_child_at_index(this.enabledIcon, 0);
+  } else {
+    this.indicatorArea.remove_child(this.enabledIcon);
+  }
+
+  this.disturbToggle.setToggleState(enabled);
 }

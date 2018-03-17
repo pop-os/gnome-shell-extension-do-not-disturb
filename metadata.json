@@ -1,1 +1,7 @@
-{"name": "Do Not Disturb", "description": "Activate or deactivate do not disturb mode", "uuid": "donotdisturb@kylecorry31.github.io", "shell-version": ["3.26.2"]}
+{
+    "name": "Do Not Disturb",
+    "description": "Activate or deactivate do not disturb mode",
+    "uuid": "donotdisturb@kylecorry31.github.io",
+    "settings-schema": "org.gnome.shell.extensions.kylecorry31-do-not-disturb",
+    "shell-version": ["3.26.2"]
+}
