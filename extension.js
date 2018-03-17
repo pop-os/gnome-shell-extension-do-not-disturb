@@ -35,6 +35,7 @@ function enable() {
 
     this.disturbToggle.actor.add_style_class_name('do-not-disturb');
     this.disturbToggle.actor.set_x_expand(true);
+    this.disturbToggle.actor.track_hover = false;
 
     this.disturbToggle.connect("toggled", (item, event) => _toggle());
 
