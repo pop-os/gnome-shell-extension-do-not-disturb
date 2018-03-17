@@ -10,6 +10,7 @@ function init() {}
 
 function enable() {
     this.clearButton = Main.panel.statusArea.dateMenu._messageList._clearButton;
+    this.clearButtonHeight = this.clearButton.get_height();
 
     this.calendarBox = this.clearButton.get_parent();
 
@@ -28,9 +29,14 @@ function enable() {
     });
 
     this.disturbToggle.actor.set_x_align(Clutter.ActorAlign.START);
+    this.disturbToggle.actor.remove_child(this.disturbToggle.label);
+    this.disturbToggle.actor.add_child(this.disturbToggle.label);
+    this.disturbToggle.actor.remove_child(this.disturbToggle._ornamentLabel);
+
+    this.clearBox.add_actor(this.disturbToggle.actor);
+
 
     this.clearButton.set_height(this.disturbToggle.actor.get_height());
-    this.clearBox.add_actor(this.disturbToggle.actor);
     this.clearButton.reparent(this.clearBox);
     this.clearButton.add_style_class_name('clear-button');
 
@@ -60,5 +66,13 @@ function disable() {
     if(this.disturbToggle){
       this.disturbToggle.destroy();
       this.disturbToggle = 0;
+    }
+    this.clearButton.reparent(this.calendarBox);
+    this.clearButton.set_height(this.clearButtonHeight);
+    this.clearButton.remove_style_class_name('clear-button');
+
+    if(this.clearBox){
+      this.clearBox.destroy();
+      this.clearBox = 0;
     }
 }
