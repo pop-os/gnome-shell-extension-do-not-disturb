@@ -15,7 +15,7 @@ $(info UUID is "$(UUID)")
 
 .PHONY: all clean install zip-file
 
-all: schemas extension.js widgets.js settings.js prefs.js metadata.json stylesheet.css
+all: src/schemas src/extension.js src/widgets.js src/settings.js src/prefs.js src/metadata.json src/stylesheet.css
 	rm -rf _build
 	mkdir -p _build
 	cp -r $^ _build
