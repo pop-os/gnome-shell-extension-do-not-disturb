@@ -6,10 +6,15 @@ const Clutter = imports.gi.Clutter;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Settings = Me.imports.settings; 
 
-
+/**
+ * Called when the extension is loaded.
+ */
 function init() {
 }
 
+/**
+ * Enable the do not disturb extension. Adds all UI elements and monitors the settings object.
+ */
 function enable() {
     this.indicatorArea = Main.panel.statusArea.aggregateMenu._indicators;
 
@@ -58,6 +63,9 @@ function enable() {
     this._sync();
 }
 
+/**
+ * Disables the extension. Tears down all UI components.
+ */
 function disable() {
     if(this.disturbToggle){
       this.disturbToggle.destroy();
@@ -79,12 +87,18 @@ function disable() {
     }
 }
 
+/**
+ * Toggle the status of the do not disturb mode in settings, and calls _sync.
+ */
 function _toggle(){
   let status = this.settings.isDoNotDisturb();
   this.settings.setDoNotDisturb(!status);
   this._sync();
 }
 
+/**
+ * Updates the UI based on the settings. Includes switching the toggle state and showing the status icon.
+ */
 function _sync(){
   let enabled = this.settings.isDoNotDisturb();
   let showIcon = this.settings.shouldShowIcon();
