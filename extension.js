@@ -1,61 +1,26 @@
-const Main = imports.ui.main;
-const PopupMenu = imports.ui.popupMenu;
-const St = imports.gi.St;
-const Clutter = imports.gi.Clutter;
-
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Settings = Me.imports.settings; 
+const Widget = Me.imports.widgets;
 
 /**
  * Called when the extension is loaded.
  */
 function init() {
+
 }
 
 /**
  * Enable the do not disturb extension. Adds all UI elements and monitors the settings object.
  */
 function enable() {
-    this.indicatorArea = Main.panel.statusArea.aggregateMenu._indicators;
+    this.disturbToggle = new Widget.DoNotDisturbToggle();
+    this.disturbToggle.show();
 
-    this.enabledIcon = new St.Icon({
-            icon_name: 'notification-disabled-symbolic',
-            style_class: 'popup-menu-icon'
-    });
-
-    this.clearButton = Main.panel.statusArea.dateMenu._messageList._clearButton;
-    this.clearButtonHeight = this.clearButton.get_height();
-
-    this.calendarBox = this.clearButton.get_parent();
-
-    this.clearBox = new St.BoxLayout({ vertical: false,
-                                       x_expand: true,
-                                       y_expand: false });
-
-
-    this.disturbToggle = new PopupMenu.PopupSwitchMenuItem("Do not disturb");
-
-    this.disturbToggle.actor.add_style_class_name('do-not-disturb');
-    this.disturbToggle.actor.set_x_expand(true);
-    this.disturbToggle.actor.track_hover = false;
-
-    this.disturbToggle.actor.set_x_align(Clutter.ActorAlign.START);
-    this.disturbToggle.actor.remove_child(this.disturbToggle.label);
-    this.disturbToggle.actor.add_child(this.disturbToggle.label);
-    this.disturbToggle.actor.remove_child(this.disturbToggle._ornamentLabel);
-
-    this.clearBox.add_actor(this.disturbToggle.actor);
-
-
-    this.clearButton.set_height(this.disturbToggle.actor.get_height());
-    this.clearButton.reparent(this.clearBox);
-    this.clearButton.add_style_class_name('clear-button');
-
-    this.calendarBox.add_actor(this.clearBox);
+    this.enabledIcon = new Widget.DoNotDisturbIcon();
 
     this.settings = new Settings.SettingsManager();
 
-    this.disturbToggle.connect("toggled", (item, event) => _toggle());
+    this.disturbToggle.onToggleStateChanged(() => _toggle());
 
     this.settings.onDoNotDisturbChanged(() => _sync());
     this.settings.onShowIconChanged(() => _sync());
@@ -67,33 +32,16 @@ function enable() {
  * Disables the extension. Tears down all UI components.
  */
 function disable() {
-    if(this.disturbToggle){
-      this.disturbToggle.destroy();
-      this.disturbToggle = 0;
-    }
-    this.clearButton.reparent(this.calendarBox);
-    this.clearButton.set_height(this.clearButtonHeight);
-    this.clearButton.remove_style_class_name('clear-button');
-
-    if(this.clearBox){
-      this.clearBox.destroy();
-      this.clearBox = 0;
-    }
-
-    if(this.enabledIcon){
-      this.indicatorArea.remove_child(this.enabledIcon);
-      this.enabledIcon.destroy();
-      this.enabledIcon = 0;
-    }
+    this.disturbToggle.destroy();
+    this.enabledIcon.destroy();
 }
 
 /**
- * Toggle the status of the do not disturb mode in settings, and calls _sync.
+ * Toggle the status of the do not disturb mode in settings.
  */
 function _toggle(){
   let status = this.settings.isDoNotDisturb();
-  this.settings.setDoNotDisturb(!status);
-  this._sync();
+  this.settings.setDoNotDisturb(!status); // This will trigger a call to _sync
 }
 
 /**
@@ -103,10 +51,12 @@ function _sync(){
   let enabled = this.settings.isDoNotDisturb();
   let showIcon = this.settings.shouldShowIcon();
   if(enabled && showIcon){
-        this.indicatorArea.insert_child_at_index(this.enabledIcon, 0);
+      this.enabledIcon.hide();
+      this.enabledIcon.show();
   } else {
-    this.indicatorArea.remove_child(this.enabledIcon);
+    this.enabledIcon.hide();
   }
 
   this.disturbToggle.setToggleState(enabled);
+
 }
