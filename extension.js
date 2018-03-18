@@ -13,17 +13,17 @@ function init() {
  * Enable the do not disturb extension. Adds all UI elements and monitors the settings object.
  */
 function enable() {
-    this.disturbToggle = new Widget.DoNotDisturbToggle();
-    this.disturbToggle.show();
+    this._disturbToggle = new Widget.DoNotDisturbToggle();
+    this._disturbToggle.show();
 
-    this.enabledIcon = new Widget.DoNotDisturbIcon();
+    this._enabledIcon = new Widget.DoNotDisturbIcon();
 
-    this.settings = new Settings.SettingsManager();
+    this._settings = new Settings.SettingsManager();
 
-    this.disturbToggle.onToggleStateChanged(() => _toggle());
+    this._disturbToggle.onToggleStateChanged(() => _toggle());
 
-    this.settings.onDoNotDisturbChanged(() => _sync());
-    this.settings.onShowIconChanged(() => _sync());
+    this._settings.onDoNotDisturbChanged(() => _sync());
+    this._settings.onShowIconChanged(() => _sync());
 
     this._sync();
 }
@@ -32,31 +32,31 @@ function enable() {
  * Disables the extension. Tears down all UI components.
  */
 function disable() {
-    this.disturbToggle.destroy();
-    this.enabledIcon.destroy();
+    this._disturbToggle.destroy();
+    this._enabledIcon.destroy();
 }
 
 /**
- * Toggle the status of the do not disturb mode in settings.
+ * Toggle the status of the do not disturb mode in _settings.
  */
 function _toggle(){
-  let status = this.settings.isDoNotDisturb();
-  this.settings.setDoNotDisturb(!status); // This will trigger a call to _sync
+  let status = this._settings.isDoNotDisturb();
+  this._settings.setDoNotDisturb(!status); // This will trigger a call to _sync
 }
 
 /**
- * Updates the UI based on the settings. Includes switching the toggle state and showing the status icon.
+ * Updates the UI based on the _settings. Includes switching the toggle state and showing the status icon.
  */
 function _sync(){
-  let enabled = this.settings.isDoNotDisturb();
-  let showIcon = this.settings.shouldShowIcon();
+  let enabled = this._settings.isDoNotDisturb();
+  let showIcon = this._settings.shouldShowIcon();
   if(enabled && showIcon){
-      this.enabledIcon.hide();
-      this.enabledIcon.show();
+      this._enabledIcon.hide();
+      this._enabledIcon.show();
   } else {
-    this.enabledIcon.hide();
+    this._enabledIcon.hide();
   }
 
-  this.disturbToggle.setToggleState(enabled);
+  this._disturbToggle.setToggleState(enabled);
 
 }

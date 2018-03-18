@@ -21,55 +21,55 @@ var DoNotDisturbToggle = new Lang.Class({
 	 * Shows the do not disturb toggle in the calendar/notification popup.
 	 */
 	show(){
-		this.clearButton = Main.panel.statusArea.dateMenu._messageList._clearButton;
-	    this.clearButtonHeight = this.clearButton.get_height();
+		this._clearButton = Main.panel.statusArea.dateMenu._messageList._clearButton;
+	    this._clearButtonHeight = this._clearButton.get_height();
 
-	    this.calendarBox = this.clearButton.get_parent();
+	    this._calendarBox = this._clearButton.get_parent();
 
-	    this.clearBox = new St.BoxLayout({ vertical: false,
+	    this._clearBox = new St.BoxLayout({ vertical: false,
 	                                       x_expand: true,
 	                                       y_expand: false });
 
 
-	    this.disturbToggle = new PopupMenu.PopupSwitchMenuItem("Do not disturb");
+	    this._disturbToggle = new PopupMenu.PopupSwitchMenuItem("Do not disturb");
 
-	    this.disturbToggle.actor.add_style_class_name('do-not-disturb');
-	    this.disturbToggle.actor.set_x_expand(true);
-	    this.disturbToggle.actor.track_hover = false;
+	    this._disturbToggle.actor.add_style_class_name('do-not-disturb');
+	    this._disturbToggle.actor.set_x_expand(true);
+	    this._disturbToggle.actor.track_hover = false;
 
-	    this.disturbToggle.actor.set_x_align(Clutter.ActorAlign.START);
-	    this.disturbToggle.actor.remove_child(this.disturbToggle.label);
-	    this.disturbToggle.actor.add_child(this.disturbToggle.label);
-	    this.disturbToggle.actor.remove_child(this.disturbToggle._ornamentLabel);
+	    this._disturbToggle.actor.set_x_align(Clutter.ActorAlign.START);
+	    this._disturbToggle.actor.remove_child(this._disturbToggle.label);
+	    this._disturbToggle.actor.add_child(this._disturbToggle.label);
+	    this._disturbToggle.actor.remove_child(this._disturbToggle._ornamentLabel);
 
-	    this.clearBox.add_actor(this.disturbToggle.actor);
+	    this._clearBox.add_actor(this._disturbToggle.actor);
 
 
-	    this.clearButton.set_height(this.disturbToggle.actor.get_height());
-	    this.clearButton.reparent(this.clearBox);
-	    this.clearButton.add_style_class_name('clear-button');
+	    this._clearButton.set_height(this._disturbToggle.actor.get_height());
+	    this._clearButton.reparent(this._clearBox);
+	    this._clearButton.add_style_class_name('clear-button');
 
-	    this.calendarBox.add_actor(this.clearBox);
+	    this._calendarBox.add_actor(this._clearBox);
 	},
 
 	/**
 	 * Destroys all UI elements of the toggle and returns the clear button to its proper location.
 	 */
 	destroy(){
-		if(this.disturbToggle){
-	      this.disturbToggle.destroy();
-	      this.disturbToggle = 0;
+		if(this._disturbToggle){
+	      this._disturbToggle.destroy();
+	      this._disturbToggle = 0;
     	}
 
-    	if(this.clearButton){
-		    this.clearButton.reparent(this.calendarBox);
-		    this.clearButton.set_height(this.clearButtonHeight);
-		    this.clearButton.remove_style_class_name('clear-button');
+    	if(this._clearButton){
+		    this._clearButton.reparent(this._calendarBox);
+		    this._clearButton.set_height(this._clearButtonHeight);
+		    this._clearButton.remove_style_class_name('clear-button');
 		}
 
-	    if(this.clearBox){
-	      this.clearBox.destroy();
-	      this.clearBox = 0;
+	    if(this._clearBox){
+	      this._clearBox.destroy();
+	      this._clearBox = 0;
 	    }
 	},
 
@@ -79,8 +79,8 @@ var DoNotDisturbToggle = new Lang.Class({
 	 * @param {boolean} state - The state of the toggle: true for on, false for off.
 	 */
 	setToggleState(state){
-		if(this.disturbToggle){
-			this.disturbToggle.setToggleState(state);
+		if(this._disturbToggle){
+			this._disturbToggle.setToggleState(state);
 		}
 	},
 
@@ -90,8 +90,8 @@ var DoNotDisturbToggle = new Lang.Class({
 	 * @returns {boolean} - True if the toggle is on, false otherwise.
 	 */
 	getToggleState(){
-		if(this.disturbToggle){
-			return this.disturbToggle._switch.state;
+		if(this._disturbToggle){
+			return this._disturbToggle._switch.state;
 		}
 		return false;
 	},
@@ -102,8 +102,8 @@ var DoNotDisturbToggle = new Lang.Class({
 	 * @param {() => ()} fn - The function to call when the toggle state changes.
 	 */
 	onToggleStateChanged(fn){
-		if(this.disturbToggle){
-			this.disturbToggle.connect("toggled", (item, event) => fn());
+		if(this._disturbToggle){
+			this._disturbToggle.connect("toggled", (item, event) => fn());
 		}
 	},
 });
@@ -119,9 +119,9 @@ var DoNotDisturbIcon = new Lang.Class({
 	 * @constructor
 	 */
 	_init(){
-		this.indicatorArea = Main.panel.statusArea.aggregateMenu._indicators;
+		this._indicatorArea = Main.panel.statusArea.aggregateMenu._indicators;
 
-	    this.enabledIcon = new St.Icon({
+	    this._enabledIcon = new St.Icon({
 	            icon_name: 'notification-disabled-symbolic',
 	            style_class: 'popup-menu-icon'
 	    });
@@ -131,24 +131,24 @@ var DoNotDisturbIcon = new Lang.Class({
 	 * Shows the status icon.
 	 */
 	show(){
-		this.indicatorArea.insert_child_at_index(this.enabledIcon, 0);
+		this._indicatorArea.insert_child_at_index(this._enabledIcon, 0);
 	},
 
 	/**
 	 * Hides the status icon.
 	 */
 	hide(){
-		this.indicatorArea.remove_child(this.enabledIcon);
+		this._indicatorArea.remove_child(this._enabledIcon);
 	},
 
 	/**
 	 * Destroys the status icon and removes it from the system status area.
 	 */
 	destroy(){
-		if(this.enabledIcon){
-	      this.indicatorArea.remove_child(this.enabledIcon);
-	      this.enabledIcon.destroy();
-	      this.enabledIcon = 0;
+		if(this._enabledIcon){
+	      this._indicatorArea.remove_child(this._enabledIcon);
+	      this._enabledIcon.destroy();
+	      this._enabledIcon = 0;
 	    }
 	},
 });
