@@ -1,11 +1,7 @@
 // -*- mode: js2; indent-tabs-mode: nil; js2-basic-offset: 4 -*-
 // Adapted from lockkeys@vaina.lt and https://github.com/pop-os/gnome-shell-extension-pop-suspend-button
 
-const Gio = imports.gi.Gio;
 const Gtk = imports.gi.Gtk;
-const Lang = imports.lang;
-const GObject = imports.gi.GObject;
-
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Settings = Me.imports.settings;
 
