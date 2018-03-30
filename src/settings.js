@@ -91,6 +91,8 @@ var SettingsManager = new Lang.Class({
 	shouldMuteSound(muteSound){
 		this._appSettings.set_boolean('mute-sounds', muteSound);
 	},
+
+	
 });
 
 /**

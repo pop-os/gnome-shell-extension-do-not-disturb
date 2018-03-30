@@ -119,11 +119,11 @@ var DoNotDisturbIcon = new Lang.Class({
 	 * @constructor
 	 */
 	_init(){
-		this._indicatorArea = Main.panel.statusArea.aggregateMenu._indicators;
+		this._indicatorArea = Main.panel._centerBox;//statusArea.aggregateMenu._indicators;
 
 	    this._enabledIcon = new St.Icon({
 	            icon_name: 'notification-disabled-symbolic',
-	            style_class: 'popup-menu-icon'
+	            style_class: 'popup-menu-icon do-not-disturb-icon'
 	    });
 	},
 
@@ -131,7 +131,7 @@ var DoNotDisturbIcon = new Lang.Class({
 	 * Shows the status icon.
 	 */
 	show(){
-		this._indicatorArea.insert_child_at_index(this._enabledIcon, 0);
+		this._indicatorArea.insert_child_at_index(this._enabledIcon, 1);
 	},
 
 	/**
