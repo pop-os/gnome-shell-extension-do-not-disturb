@@ -25,6 +25,13 @@ var SettingsManager = new Lang.Class({
 	 * @param  {boolean} enabled - True if do not disturb should be enabled, false otherwise.
 	 */
 	setDoNotDisturb(enabled){
+		if(this.shouldMuteSound()){
+			if(enabled){
+				this.muteAllSounds();
+			} else {
+				this.unmuteAllSounds();
+			}
+		}
 		this._soundSettings.set_boolean('event-sounds', !enabled);
 		this._notificationSettings.set_boolean('show-banners', !enabled);
 	},
@@ -88,11 +95,35 @@ var SettingsManager = new Lang.Class({
 	 * 
 	 * @param  {boolean} muteSound - True if the sound should be muted when do not disturb is enabled, false otherwise.
 	 */
-	shouldMuteSound(muteSound){
+	setShouldMuteSound(muteSound){
 		this._appSettings.set_boolean('mute-sounds', muteSound);
 	},
 
-	
+	/**
+	 * Mutes all sounds.
+	 */
+	muteAllSounds(){
+		var [res, stdout, stderr, status] = GLib.spawn_sync(
+	        null,
+	        ["amixer", "-q", "-D", "pulse", "sset", "Master", "mute"],
+	        null,
+	        GLib.SpawnFlags.SEARCH_PATH,
+	        null,
+	        null);
+	},
+
+	/**
+	 * Unmutes all sounds.
+	 */
+	unmuteAllSounds(){
+		var [res, stdout, stderr, status] = GLib.spawn_sync(
+	        null,
+	        ["amixer", "-q", "-D", "pulse", "sset", "Master", "unmute"],
+	        null,
+	        GLib.SpawnFlags.SEARCH_PATH,
+	        null,
+	        null);	
+	},
 });
 
 /**

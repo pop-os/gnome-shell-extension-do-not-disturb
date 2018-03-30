@@ -2,8 +2,13 @@
 <schemalist gettext-domain="org-gnome-shell-extensions-kylecorry31-do-not-disturb">
   <schema path="/org/gnome/shell/extensions/kylecorry31-do-not-disturb/" id="org.gnome.shell.extensions.kylecorry31-do-not-disturb">
     <key type="b" name="show-icon">
-        <default>false</default>
+        <default>true</default>
         <summary>Show an indicator icon when do not disturb is enabled.</summary>
+        <description></description>
+    </key>
+    <key type="b" name="mute-sounds">
+        <default>false</default>
+        <summary>Mutes all sound when do not disturb is enabled.</summary>
         <description></description>
     </key>
   </schema>
