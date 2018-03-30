@@ -25,13 +25,6 @@ var SettingsManager = new Lang.Class({
 	 * @param  {boolean} enabled - True if do not disturb should be enabled, false otherwise.
 	 */
 	setDoNotDisturb(enabled){
-		if(this.shouldMuteSound()){
-			if(enabled){
-				this.muteAllSounds();
-			} else {
-				this.unmuteAllSounds();
-			}
-		}
 		this._soundSettings.set_boolean('event-sounds', !enabled);
 		this._notificationSettings.set_boolean('show-banners', !enabled);
 	},
@@ -97,6 +90,42 @@ var SettingsManager = new Lang.Class({
 	 */
 	setShouldMuteSound(muteSound){
 		this._appSettings.set_boolean('mute-sounds', muteSound);
+	},
+
+	/**
+	 * Calls a function when the status of the mute sounds setting has changed.
+	 * 
+	 * @param {() => ()} fn - The function to call when the mute sounds setting is changed.
+	 */
+	onMuteSoundChanged(fn){
+		this._appSettings.connect('changed::mute-sounds', fn);
+	},
+
+	/**
+	 * Determines if the notification dot should be hidden when do not disturb is enabled. 
+	 * 
+	 * @returns {boolean} - True if the notification dot should be hidden when do not disturb is enabled, false otherwise.
+	 */
+	shouldHideNotificationDot(){
+		return this._appSettings.get_boolean('hide-dot');
+	},
+
+	/**
+	 * Enable or disable the hiding of the notification dot when do not disturb mode is enabled.
+	 * 
+	 * @param  {boolean} hideDot - True if the notification dot should be hidden when do not disturb is enabled, false otherwise.
+	 */
+	setShouldHideNotificationDot(hideDot){
+		this._appSettings.set_boolean('hide-dot', hideDot);
+	},
+
+	/**
+	 * Calls a function when the status of the hide notification dot setting has changed.
+	 * 
+	 * @param {() => ()} fn - The function to call when the hide notification dot setting is changed.
+	 */
+	onHideNotificationDotChanged(fn){
+		this._appSettings.connect('changed::hide-dot', fn);
 	},
 
 	/**

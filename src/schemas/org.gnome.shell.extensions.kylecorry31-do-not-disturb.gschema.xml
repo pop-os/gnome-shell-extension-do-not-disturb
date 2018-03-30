@@ -11,5 +11,10 @@
         <summary>Mutes all sound when do not disturb is enabled.</summary>
         <description></description>
     </key>
+    <key type="b" name="hide-dot">
+        <default>false</default>
+        <summary>Hide the notification dot when do not disturb is enabled.</summary>
+        <description></description>
+    </key>
   </schema>
 </schemalist>
