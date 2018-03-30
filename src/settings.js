@@ -15,15 +15,17 @@ var SettingsManager = new Lang.Class({
 	 */
 	_init(){
 		this._appSettings = _getSettings();
-		this._notificationSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.notifications'});
+		this._notificationSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.notifications' });
+		this._soundSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.sound' });
 	},
 
 	/**
-	 * Enable or disable do not disturb mode.
+	 * Enable or disable do not disturb mode (hide banners and mute sounds if enabled).
 	 * 
 	 * @param  {boolean} enabled - True if do not disturb should be enabled, false otherwise.
 	 */
 	setDoNotDisturb(enabled){
+		this._soundSettings.set_boolean('event-sounds', !enabled);
 		this._notificationSettings.set_boolean('show-banners', !enabled);
 	},
 
@@ -70,6 +72,24 @@ var SettingsManager = new Lang.Class({
 	 */
 	onShowIconChanged(fn){
 		this._appSettings.connect('changed::show-icon', fn);
+	},
+
+	/**
+	 * Determines if the sound should be muted when do not disturb is enabled. 
+	 * 
+	 * @returns {boolean} - True if the sound should be muted when do not disturb is enabled, false otherwise.
+	 */
+	shouldMuteSound(){
+		return this._appSettings.get_boolean('mute-sounds');
+	},
+
+	/**
+	 * Enable or disable the muting of sound when do not disturb mode is enabled.
+	 * 
+	 * @param  {boolean} muteSound - True if the sound should be muted when do not disturb is enabled, false otherwise.
+	 */
+	shouldMuteSound(muteSound){
+		this._appSettings.set_boolean('mute-sounds', muteSound);
 	},
 });
 
