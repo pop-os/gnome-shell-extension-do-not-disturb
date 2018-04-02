@@ -131,7 +131,7 @@ var DoNotDisturbIcon = new Lang.Class({
 	 * Shows the status icon.
 	 */
 	show(){
-		this._indicatorArea.insert_child_at_index(this._enabledIcon, 1);
+		this._indicatorArea.add_child(this._enabledIcon);
 	},
 
 	/**

@@ -1,7 +1,6 @@
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Settings = Me.imports.settings; 
 const Widget = Me.imports.widgets;
-const Main = imports.ui.main;
 
 /**
  * Called when the extension is loaded.
