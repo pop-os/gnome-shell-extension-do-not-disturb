@@ -74,11 +74,11 @@ function _sync(){
 
   if(enabled && muteSounds){
     this._settings.muteAllSounds();
-  } else if (lastMuteState && !muteSounds){
+  } else if (this._lastMuteState && !muteSounds){
     this._settings.unmuteAllSounds();
   }
 
-  lastMuteState = muteSounds;
+  this._lastMuteState = muteSounds;
 
   this._disturbToggle.setToggleState(enabled);
 }
