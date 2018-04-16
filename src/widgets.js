@@ -41,7 +41,6 @@ var DoNotDisturbToggle = new Lang.Class({
 	    this._disturbToggle.actor.remove_child(this._disturbToggle.label);
 	    this._disturbToggle.actor.add_child(this._disturbToggle.label);
 	    this._disturbToggle.actor.remove_child(this._disturbToggle._ornamentLabel);
-	    this._disturbToggle.actor.set_can_focus(false);
 
 	    this._clearBox.add_actor(this._disturbToggle.actor);
 
