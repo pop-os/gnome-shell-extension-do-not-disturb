@@ -3,6 +3,11 @@ const Main = imports.ui.main;
 const PopupMenu = imports.ui.popupMenu;
 const St = imports.gi.St;
 const Clutter = imports.gi.Clutter;
+const Gettext = imports.gettext.domain('gnome-shell-extension-do-not-disturb');
+const _ = Gettext.gettext;
+const Me = imports.misc.extensionUtils.getCurrentExtension();
+const Lib = Me.imports.lib;
+
 
 /**
  * A class which handles the UI of the do not disturb toggle.
@@ -31,7 +36,7 @@ var DoNotDisturbToggle = new Lang.Class({
 	                                       y_expand: false });
 
 
-	    this._disturbToggle = new PopupMenu.PopupSwitchMenuItem("Do not disturb");
+	    this._disturbToggle = new PopupMenu.PopupSwitchMenuItem(_("Do not disturb"));
 
 	    this._disturbToggle.actor.add_style_class_name('do-not-disturb');
 	    this._disturbToggle.actor.set_x_expand(true);
@@ -174,3 +179,5 @@ var HideDotController = new Lang.Class({
 	},
 
 });
+
+Lib.initTranslations(Me);

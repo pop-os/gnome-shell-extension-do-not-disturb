@@ -1,0 +1,18 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Gnome-Shell-Extension Do Not Disturb\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-14 7:24+0200\n"
+"PO-Revision-Date: 2018-10-14 07:30-0400\n"
+"Language-Team: Portuguese <kylecorry31@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.2\n"
+"Last-Translator: \n"
+"Language: pt\n"
+
+#: widgets.js:39
+msgid "Do not disturb"
+msgstr "Não perturbe"

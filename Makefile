@@ -3,6 +3,7 @@
 
 # Retrieve the UUID from ``metadata.json``
 UUID = donotdisturb@kylecorry31.github.io
+MSGSRC = $(wildcard src/locale/*/*/*.po)
 
 ifeq ($(strip $(DESTDIR)),)
 INSTALLBASE = $(HOME)/.local/share/gnome-shell/extensions
@@ -15,13 +16,23 @@ $(info UUID is "$(UUID)")
 
 .PHONY: all clean install zip-file
 
-all: src/schemas src/extension.js src/widgets.js src/settings.js src/prefs.js src/metadata.json src/stylesheet.css
+all: extension
 	rm -rf _build
 	mkdir -p _build
-	cp -r $^ _build
+	cp -r src/* _build
+
+extension: ./src/schemas/gschemas.compiled $(MSGSRC:.po=.mo)
 
 clean:
+	rm -f ./src/schemas/gschemas.compiled
+	rm -f ./src/locale/*/*/*.mo
 	rm -rf _build
+
+./src/schemas/gschemas.compiled: ./src/schemas/org.gnome.shell.extensions.kylecorry31-do-not-disturb.gschema.xml
+	glib-compile-schemas ./src/schemas/
+
+./src/locale/%.mo: ./src/locale/%.po
+	msgfmt -c $< -o $@
 
 install: all
 	rm -rf $(INSTALLBASE)/$(INSTALLNAME)
