@@ -7,12 +7,13 @@ Do not disturb mode will block notifications from appearing on the screen, but w
 
 
 ## Installation
-To install, clone this repo and use make to install
+To install, use the GNOME Shell Extension web store:  https://extensions.gnome.org/extension/1480/do-not-disturb/
+
+Or clone this repo and use make to install
 
 ```shell
 $ git clone https://github.com/kylecorry31/gnome-shell-extension-do-not-disturb
 $ cd gnome-shell-extension-do-not-disturb
-$ make
 $ make install
 ```
 
