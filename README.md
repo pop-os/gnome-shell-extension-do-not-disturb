@@ -32,9 +32,9 @@ Please fork this repo and submit a pull request to contribute. I will review all
 The implementation has been done by me, and employees from System76 have added debian packaging in their fork for inclusion into Pop!\_OS. The specifications for this project came from employees of System76, check out their work at [pop-os](https://github.com/pop-os).
 
 ### Contributors
-- @kylecorry31 - Initial work on the extension
-- @pop-os - Specifications and use cases
-- @r4dixx - French translations
+- [@kylecorry31](https://github.com/kylecorry31) - Initial work on the extension
+- [@pop-os](https://github.com/pop-os) - Specifications and use cases
+- [@r4dixx](https://github.com/r4dixx) - French translations
 
 ## License
 This project is published under the [MIT License](LICENSE).   
