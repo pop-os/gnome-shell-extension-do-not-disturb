@@ -23,6 +23,8 @@ The extension then must be enabled using Gnome Tweak Tool or https://extensions.
 ### Usage
 Once the extension is enabled, open the notification panel by clicking on the date in the top bar and click the toggle at the bottom of that panel for do not disturb. To deactive it, follow the same instructions, but toggle the do not distub off.
 
+![Toggle DND](screenshots/activate.gif)
+
 ## Contributing
 Please fork this repo and submit a pull request to contribute. I will review all changes and respond if they are accepted or rejected (as well as reasons, so it will be accepted). I am working with System76 to ensure this extension fits into Pop!\_OS, so some changes may not be approved or will need to be modified upon their request.
 
