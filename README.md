@@ -39,4 +39,4 @@ The implementation has been done by me, and employees from System76 have added d
 - [@r4dixx](https://github.com/r4dixx) - French translations
 
 ## License
-This project is published under the [MIT License](LICENSE).   
+You are free to copy, modify, and distribute Do Not Disturb GNOME Shell Extension with attribution under the terms of the MIT license. See the [LICENSE](LICENSE) file for details.
