@@ -1,5 +1,10 @@
 # Changelog - Do not disturb extension
 
+## v1.1.1 - October 15, 2018
+
+**Bug Fixes:**
+- Icon now falls back to an pre-packaged version if the icon set does not support the default icon.
+
 ## v1.1.0 - October 15, 2018
 
 **Added:**
