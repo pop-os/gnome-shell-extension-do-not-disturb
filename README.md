@@ -1,4 +1,4 @@
-# Do Not Disturb Gnome Shell Extension
+# [Do Not Disturb Gnome Shell Extension](https://github.com/kylecorry31/gnome-shell-extension-do-not-disturb)
 An extension to prevent notifications from interrupting you on GNOME.
 
 ![Do not disturb](screenshots/dnd.gif)
