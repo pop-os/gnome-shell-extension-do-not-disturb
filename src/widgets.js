@@ -134,10 +134,14 @@ var DoNotDisturbIcon = new Lang.Class({
 	_init(){
 			this._indicatorArea = Main.panel._centerBox;//statusArea.aggregateMenu._indicators;
 
+			let localDir = Me.dir.get_path();
+
 			let icon = "notification-disabled-symbolic";
-			let fallback = "user-offline-symbolic";
+			let fallback = "dnd-symbolic";
 
 			let iconTheme = Gtk.IconTheme.get_default();
+			iconTheme.append_search_path(localDir);
+
 			if(!iconTheme.has_icon(icon)){
 				icon = fallback;
 			}
