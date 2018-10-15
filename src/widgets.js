@@ -3,6 +3,7 @@ const Main = imports.ui.main;
 const PopupMenu = imports.ui.popupMenu;
 const St = imports.gi.St;
 const Clutter = imports.gi.Clutter;
+const Gtk = imports.gi.Gtk;
 const Gettext = imports.gettext.domain('gnome-shell-extension-do-not-disturb');
 const _ = Gettext.gettext;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
@@ -131,10 +132,18 @@ var DoNotDisturbIcon = new Lang.Class({
 	 * @constructor
 	 */
 	_init(){
-		this._indicatorArea = Main.panel._centerBox;//statusArea.aggregateMenu._indicators;
+			this._indicatorArea = Main.panel._centerBox;//statusArea.aggregateMenu._indicators;
+
+			let icon = "notification-disabled-symbolic";
+			let fallback = "user-offline-symbolic";
+
+			let iconTheme = Gtk.IconTheme.get_default();
+			if(!iconTheme.has_icon(icon)){
+				icon = fallback;
+			}
 
 	    this._enabledIcon = new St.Icon({
-	            icon_name: 'notification-disabled-symbolic',
+	            icon_name: icon,
 	            style_class: 'popup-menu-icon do-not-disturb-icon'
 	    });
 	},
