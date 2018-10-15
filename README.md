@@ -1,4 +1,4 @@
-# [Do Not Disturb Gnome Shell Extension](https://github.com/kylecorry31/gnome-shell-extension-do-not-disturb)
+# [Do Not Disturb GNOME Shell Extension](https://github.com/kylecorry31/gnome-shell-extension-do-not-disturb)
 An extension to prevent notifications from interrupting you on GNOME.
 
 ![Do not disturb](screenshots/dnd.gif)
@@ -20,7 +20,7 @@ $ cd gnome-shell-extension-do-not-disturb
 $ make install
 ```
 
-The extension then must be enabled using Gnome Tweak Tool or https://extensions.gnome.org/local/
+The extension then must be enabled using GNOME Tweak Tool or at https://extensions.gnome.org/local/
 
 ### Usage
 Once the extension is enabled, open the notification panel by clicking on the date in the top bar and click the toggle at the bottom of that panel for do not disturb. To deactive it, follow the same instructions, but toggle the do not distub off.
