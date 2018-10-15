@@ -10,28 +10,28 @@ function init() {
 
 /**
  * Builds the GTK widget which displays all of the application specific settings.
- * 
+ *
  * @returns {Gtk.Box} - The frame to display.
  */
 function buildPrefsWidget() {
-    settings = new Settings.SettingsManager();
+    let settings = new Settings.SettingsManager();
     let frame = new Gtk.Box({orientation: Gtk.Orientation.VERTICAL,
         border_width: 10, margin: 20});
     frame.add(createSwitch(settings.shouldShowIcon(), (b) => settings.setShowIcon(b), ("Enabled Icon"), ("Show an indicator icon when do not disturb is enabled.")));
     frame.add(createSwitch(settings.shouldMuteSound(), (b) => settings.setShouldMuteSound(b), ("Mute Sounds"), ("Mutes all sound when do not disturb is enabled.")));
     frame.add(createSwitch(settings.shouldHideNotificationDot(), (b) => settings.setShouldHideNotificationDot(b), ("Hide Notification Dot"), ("Hides the notification dot when do not disturb is enabled.")));
-    
+
     frame.show_all();
     return frame;
 }
 
 /**
  * Creates a switch setting.
- * 
- * @param {boolean} active - The starting state of the switch. 
+ *
+ * @param {boolean} active - The starting state of the switch.
  * @param {(boolean) => ()} set - The setter function which is passed the value of the switch on state change.
  * @param {string} text - The label of the widget.
- * @param {string} tooltip - The description text to display on hover. 
+ * @param {string} tooltip - The description text to display on hover.
  * @returns {Gtk.Box} - The widget containing the switch and label.
  */
 function createSwitch(active, set, text, tooltip) {
@@ -46,4 +46,3 @@ function createSwitch(active, set, text, tooltip) {
     box.add(widget);
     return box;
 }
-

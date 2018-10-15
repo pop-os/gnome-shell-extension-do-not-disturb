@@ -20,6 +20,7 @@ var DoNotDisturbToggle = new Lang.Class({
 	 * @constructor
 	 */
 	_init(){
+		this._connections = [];
 	},
 
 	/**
@@ -63,6 +64,10 @@ var DoNotDisturbToggle = new Lang.Class({
 	 */
 	destroy(){
 		if(this._disturbToggle){
+				this._connections.forEach((id) => {
+					this._disturbToggle.disconnect(id);
+				});
+				this._connections = [];
 	      this._disturbToggle.destroy();
 	      this._disturbToggle = 0;
     	}
@@ -81,7 +86,7 @@ var DoNotDisturbToggle = new Lang.Class({
 
 	/**
 	 * Sets the activation state of the toggle.
-	 * 
+	 *
 	 * @param {boolean} state - The state of the toggle: true for on, false for off.
 	 */
 	setToggleState(state){
@@ -92,7 +97,7 @@ var DoNotDisturbToggle = new Lang.Class({
 
 	/**
 	 * Get the activation state of the toggle.
-	 * 
+	 *
 	 * @returns {boolean} - True if the toggle is on, false otherwise.
 	 */
 	getToggleState(){
@@ -104,12 +109,13 @@ var DoNotDisturbToggle = new Lang.Class({
 
 	/**
 	 * Calls a function when the toggle state changes.
-	 * 
+	 *
 	 * @param {() => ()} fn - The function to call when the toggle state changes.
 	 */
 	onToggleStateChanged(fn){
 		if(this._disturbToggle){
-			this._disturbToggle.connect("toggled", (item, event) => fn());
+			var id = this._disturbToggle.connect("toggled", (item, event) => fn());
+			this._connections.push(id);
 		}
 	},
 });

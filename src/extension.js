@@ -1,5 +1,5 @@
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Settings = Me.imports.settings; 
+const Settings = Me.imports.settings;
 const Widget = Me.imports.widgets;
 
 /**
@@ -41,6 +41,7 @@ function disable() {
     this._disturbToggle.destroy();
     this._enabledIcon.destroy();
     this._hideDotController.unhideDot();
+    this._settings.disconnectAll();
 }
 
 /**
