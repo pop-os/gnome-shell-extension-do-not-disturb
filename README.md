@@ -5,15 +5,15 @@ An extension to prevent notifications from interrupting you on GNOME.
 
 Do not disturb mode will block notifications from appearing on the screen, and will only display a dot next to the date indicating that a notification has arrived.
 
-
 ## Getting started
-### Install
-To install, clone this repo and use make to install
+## Installation
+To install, use the GNOME Shell Extension web store:  https://extensions.gnome.org/extension/1480/do-not-disturb/
+
+Or clone this repo and use make to install
 
 ```shell
 $ git clone https://github.com/kylecorry31/gnome-shell-extension-do-not-disturb
 $ cd gnome-shell-extension-do-not-disturb
-$ make
 $ make install
 ```
 

@@ -15,4 +15,4 @@ msgstr ""
 
 #: widgets.js:36
 msgid "Do not disturb"
-msgstr "No pas déranger"
+msgstr "Ne pas déranger"
