@@ -30,6 +30,11 @@ Once the extension is enabled, open the notification panel by clicking on the da
 ## Contributing
 Please fork this repo and submit a pull request to contribute. I will review all changes and respond if they are accepted or rejected (as well as reasons, so it will be accepted). I am working with System76 to ensure this extension fits into Pop!\_OS, so some changes may not be approved or will need to be modified upon their request.
 
+### Issues
+If you are submitting a bug, please describe the bug in detail and how to replicate if possible. Logs are also very useful.
+
+If you are submitting a feature idea, please describe it in detail and document the potential use cases of that feature if it isn't clear.
+
 ## Credits
 The implementation has been done by me, and employees from System76 have added debian packaging in their fork for inclusion into Pop!\_OS. The specifications for this project came from employees of System76, check out their work at [pop-os](https://github.com/pop-os).
 
