@@ -10,6 +10,9 @@
 
 ## v1.1.1 - October 15, 2018
 
+**Added:**
+- Support for localization on prefs page (no translations yet)
+
 **Bug Fixes:**
 - Icon now falls back to an pre-packaged version if the icon set does not support the default icon.
 
