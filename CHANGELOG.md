@@ -1,5 +1,13 @@
 # Changelog - Do not disturb extension
 
+## v1.2.0 - October 18, 2018
+
+**Added:**
+- gsettings API to set DND from the terminal
+
+**Bug Fixes:**
+- Disabling DND with the mute sounds setting on will unmute the sound
+
 ## v1.1.1 - October 15, 2018
 
 **Bug Fixes:**
