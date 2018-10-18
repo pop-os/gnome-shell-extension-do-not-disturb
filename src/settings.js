@@ -19,6 +19,15 @@ var SettingsManager = new Lang.Class({
 		this._appSettings = _getSettings();
 		this._notificationSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.notifications' });
 		this._soundSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.sound' });
+		this.onAPIDNDChanged(() => {
+			if (this._appSettings.get_boolean('do-not-disturb') !== this.isDoNotDisturb()){
+				this.setDoNotDisturb(this._appSettings.get_boolean('do-not-disturb'));
+			}
+		});
+		this.onDoNotDisturbChanged(() => {
+			var isDND = this.isDoNotDisturb();
+			this._appSettings.set_boolean('do-not-disturb', isDND);
+		});
 	},
 
 	/**
@@ -29,6 +38,7 @@ var SettingsManager = new Lang.Class({
 	setDoNotDisturb(enabled){
 		this._soundSettings.set_boolean('event-sounds', !enabled);
 		this._notificationSettings.set_boolean('show-banners', !enabled);
+		this._appSettings.set_boolean('do-not-disturb', enabled);
 	},
 
 	/**
@@ -48,6 +58,16 @@ var SettingsManager = new Lang.Class({
 	onDoNotDisturbChanged(fn){
 		var id = this._notificationSettings.connect('changed::show-banners', fn);
 		this.notificationConnections.push(id);
+	},
+
+	/**
+	 * Calls a function when the status of the do not disturb external API setting has changed.
+	 *
+	 * @param {() => ()} fn - The function to call when the do not disturb setting is changed.
+	 */
+	onAPIDNDChanged(fn){
+		var id = this._appSettings.connect('changed::do-not-disturb', fn);
+		this.connections.push(id);
 	},
 
 	/**

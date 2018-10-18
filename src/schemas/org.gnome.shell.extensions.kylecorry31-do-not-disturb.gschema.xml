@@ -16,5 +16,10 @@
         <summary>Hide the notification dot when do not disturb is enabled.</summary>
         <description></description>
     </key>
+    <key type="b" name="do-not-disturb">
+        <default>false</default>
+        <summary>Activate the do not disturb mode.</summary>
+        <description></description>
+    </key>
   </schema>
 </schemalist>
