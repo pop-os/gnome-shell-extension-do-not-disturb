@@ -74,7 +74,7 @@ function _sync(){
 
   if(enabled && muteSounds){
     this._settings.muteAllSounds();
-  } else if (this._lastMuteState && !muteSounds){
+  } else if (muteSounds || this._lastMuteState) {
     this._settings.unmuteAllSounds();
   }
 

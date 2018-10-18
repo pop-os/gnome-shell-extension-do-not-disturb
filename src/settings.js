@@ -2,6 +2,7 @@ const Gio = imports.gi.Gio;
 const Lang = imports.lang;
 const GLib = imports.gi.GLib;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const Util = imports.misc.util;
 
 /**
  * A class which handles all interactions with the settings.
@@ -158,26 +159,29 @@ var SettingsManager = new Lang.Class({
 	 * Mutes all sounds.
 	 */
 	muteAllSounds(){
-		var [res, stdout, stderr, status] = GLib.spawn_sync(
-	        null,
-	        ["amixer", "-q", "-D", "pulse", "sset", "Master", "mute"],
-	        null,
-	        GLib.SpawnFlags.SEARCH_PATH,
-	        null,
-	        null);
+
+		Util.trySpawn(["amixer", "-q", "-D", "pulse", "sset", "Master", "mute"]);
+
+		// var [res, stdout, stderr, status] = GLib.spawn_sync(
+	  //       null,
+	  //       ["amixer", "-q", "-D", "pulse", "sset", "Master", "mute"],
+	  //       null,
+	  //       GLib.SpawnFlags.SEARCH_PATH,
+	  //       null);
 	},
 
 	/**
 	 * Unmutes all sounds.
 	 */
 	unmuteAllSounds(){
-		var [res, stdout, stderr, status] = GLib.spawn_sync(
-	        null,
-	        ["amixer", "-q", "-D", "pulse", "sset", "Master", "unmute"],
-	        null,
-	        GLib.SpawnFlags.SEARCH_PATH,
-	        null,
-	        null);
+		Util.trySpawn(["amixer", "-q", "-D", "pulse", "sset", "Master", "unmute"]);
+
+		// var [res, stdout, stderr, status] = GLib.spawn_sync(
+	  //       null,
+	  //       ["amixer", "-q", "-D", "pulse", "sset", "Master", "unmute"],
+	  //       null,
+	  //       GLib.SpawnFlags.SEARCH_PATH,
+	  //       null);
 	},
 
 
