@@ -3,5 +3,8 @@
     "description": "Activate or deactivate do not disturb mode",
     "uuid": "donotdisturb@kylecorry31.github.io",
     "settings-schema": "org.gnome.shell.extensions.kylecorry31-do-not-disturb",
-    "shell-version": ["3.26.2"]
+    "original-author": "kylecorry31@gmail.com",
+    "shell-version": ["3.18", "3.20", "3.22", "3.24", "3.26", "3.28", "3.30"],
+    "url": "https://github.com/kylecorry31/gnome-shell-extension-do-not-disturb",
+    "version": 3
 }

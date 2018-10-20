@@ -19,7 +19,7 @@ const Gettext = imports.gettext;
 
 const Config = imports.misc.config;
 
-function initTranslations(extension) {
+function initTranslations(extension) {z
     let localeDir = extension.dir.get_child('locale').get_path();
 
     // Extension installed in .local
