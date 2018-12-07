@@ -1,5 +1,10 @@
 # Changelog - Do not disturb extension
 
+## v1.2.1 - December 7, 2018
+
+**Bug Fixes:**
+- Error dialog no longer shows up on settings page
+
 ## v1.2.0 - October 18, 2018
 
 **Added:**
@@ -35,4 +40,4 @@ Initial release.
   - Add toggle to notification pane
   - Block notification banners
   - Setting to mute sound
-  - Setting to hide notification dot 
+  - Setting to hide notification dot

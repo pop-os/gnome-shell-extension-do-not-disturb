@@ -2,7 +2,7 @@ const Gio = imports.gi.Gio;
 const Lang = imports.lang;
 const GLib = imports.gi.GLib;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Util = imports.misc.util;
+// const Util = imports.misc.util;
 
 /**
  * A class which handles all interactions with the settings.
@@ -160,7 +160,7 @@ var SettingsManager = new Lang.Class({
 	 */
 	muteAllSounds(){
 
-		Util.trySpawn(["amixer", "-q", "-D", "pulse", "sset", "Master", "mute"]);
+		_runCmd(["amixer", "-q", "-D", "pulse", "sset", "Master", "mute"]);
 
 		// var [res, stdout, stderr, status] = GLib.spawn_sync(
 	  //       null,
@@ -174,7 +174,7 @@ var SettingsManager = new Lang.Class({
 	 * Unmutes all sounds.
 	 */
 	unmuteAllSounds(){
-		Util.trySpawn(["amixer", "-q", "-D", "pulse", "sset", "Master", "unmute"]);
+		_runCmd(["amixer", "-q", "-D", "pulse", "sset", "Master", "unmute"]);
 
 		// var [res, stdout, stderr, status] = GLib.spawn_sync(
 	  //       null,
@@ -224,4 +224,13 @@ function _getSettings() {
             throw "Schema \"%s\" not found.".format(schemaName);
         return new Gio.Settings({ schema: schemaName });
     }
-}
+	}
+
+	function _runCmd(cmd){
+		var [res, stdout, stderr, status] = GLib.spawn_sync(
+	        null,
+	        cmd,
+	        null,
+	        GLib.SpawnFlags.SEARCH_PATH,
+	        null);
+	}

@@ -3,7 +3,7 @@ An extension to prevent notifications from interrupting you on GNOME.
 
 ![Do not disturb](screenshots/dnd.gif)
 
-**Version 1.2.0** - [Changelog](CHANGELOG.md)
+**Version 1.2.1** - [Changelog](CHANGELOG.md)
 
 Do not disturb mode will block notifications from appearing on the screen, and will only display a dot next to the date indicating that a notification has arrived.
 
@@ -32,13 +32,13 @@ Enable or disable DND from the command line with the gsettings do-not-disturb fl
 
 ```Shell
 # Turn on
-gsettings set org.gnome.shell.extensions.kylecorry31-do-not-disturb do-not-disturb true 
+gsettings set org.gnome.shell.extensions.kylecorry31-do-not-disturb do-not-disturb true
 
 # Turn off
 gsettings set org.gnome.shell.extensions.kylecorry31-do-not-disturb do-not-disturb false
 
 # Get status
-gsettings get org.gnome.shell.extensions.kylecorry31-do-not-disturb do-not-disturb 
+gsettings get org.gnome.shell.extensions.kylecorry31-do-not-disturb do-not-disturb
 ```
 
 **Note: you may need to set the schema dir of gsettings to the .local directory by adding this line to the commands above: `--schemadir ~/.local/share/gnome-shell/extensions/donotdisturb@kylecorry31.github.io/schemas`**
