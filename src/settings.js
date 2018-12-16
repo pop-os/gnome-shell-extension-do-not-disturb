@@ -159,15 +159,7 @@ var SettingsManager = new Lang.Class({
 	 * Mutes all sounds.
 	 */
 	muteAllSounds(){
-
 		_runCmd(["amixer", "-q", "-D", "pulse", "sset", "Master", "mute"]);
-
-		// var [res, stdout, stderr, status] = GLib.spawn_sync(
-	  //       null,
-	  //       ["amixer", "-q", "-D", "pulse", "sset", "Master", "mute"],
-	  //       null,
-	  //       GLib.SpawnFlags.SEARCH_PATH,
-	  //       null);
 	},
 
 	/**
@@ -175,13 +167,6 @@ var SettingsManager = new Lang.Class({
 	 */
 	unmuteAllSounds(){
 		_runCmd(["amixer", "-q", "-D", "pulse", "sset", "Master", "unmute"]);
-
-		// var [res, stdout, stderr, status] = GLib.spawn_sync(
-	  //       null,
-	  //       ["amixer", "-q", "-D", "pulse", "sset", "Master", "unmute"],
-	  //       null,
-	  //       GLib.SpawnFlags.SEARCH_PATH,
-	  //       null);
 	},
 
 
@@ -197,6 +182,109 @@ var SettingsManager = new Lang.Class({
 		this.notificationConnections = [];
 	}
 
+});
+
+var NotificationManager = new Lang.Class({
+	Name: 'NotificationManager',
+
+	/**
+	 *
+	 * @constructor
+	 */
+	_init(){
+		this._notificationConnections = [];
+    this._soundConnections = [];
+		this._appConnections = [];
+    this._notificationSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.notifications' });
+    this._soundSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.sound' });
+		this._appSettings = _getSettings();
+		this.onDoNotDisturbChanged(() => {
+			// Keeps the DND managed settings up to date with the DND setting
+			this.setDoNotDisturb(this.getDoNotDisturb());
+		});
+	},
+
+	/**
+	 *
+	 */
+	setShowBanners(showBanners){
+    this._notificationSettings.set_boolean('show-banners', showBanners);
+  },
+
+  getShowBanners(){
+    return !this._notificationSettings.get_boolean('show-banners');
+  },
+
+  onShowBannersChanged(fn){
+    var id = this._notificationSettings.connect('changed::show-banners', fn);
+		this._notificationConnections.push(id);
+    return id;
+  },
+
+  setShowInLockScreen(showInLockScreen){
+    this._notificationSettings.set_boolean('show-in-lock-screen', showInLockScreen);
+  },
+
+  getShowInLockScreen(){
+    this._notificationSettings.get_boolean('show-in-lock-screen');
+  },
+
+  onShowInLockScreenChanged(fn){
+    var id = this._notificationSettings.connect('changed::show-in-lock-screen', fn);
+		this._notificationConnections.push(id);
+    return id;
+  },
+
+  setEventSounds(eventSounds){
+    this._soundSettings.set_boolean('event-sounds', eventSounds);
+  },
+
+  getEventSounds(){
+    this._soundSettings.get_boolean('event-sounds');
+  },
+
+  onEventSoundsChanged(fn){
+    var id = this._soundSettings.connect('changed::event-sounds', fn);
+		this._soundConnections.push(id);
+    return id;
+  },
+
+  setDoNotDisturb(doNotDisturb){
+    this.setShowBanners(!doNotDisturb);
+    this.setEventSounds(!doNotDisturb);
+		// TODO: mute sounds, hide notification dot
+		if (doNotDisturb != this.getDoNotDisturb()){
+			// Prevents infinte loop
+    	this._appSettings.set_boolean('do-not-disturb', doNotDisturb);
+		}
+  },
+
+	getDoNotDisturb(){
+		return this._appSettings.get_boolean('do-not-disturb');
+	},
+
+	onDoNotDisturbChanged(fn){
+		var id = this._appSettings.connect('changed::do-not-disturb', fn);
+		this._appConnections.push(id);
+    return id;
+	},
+
+	disconnectAll(){
+		this._appConnections.forEach((id) => {
+			this._appSettings.disconnect(id);
+		});
+		this._appConnections = [];
+
+		this._notificationConnections.forEach((id) => {
+			this._notificationSettings.disconnect(id);
+		});
+		this._notificationConnections = [];
+
+		this._soundConnections.forEach((id) => {
+			this._soundSettings.disconnect(id);
+		});
+		this._soundConnections = [];
+	}
 });
 
 /**

@@ -22,14 +22,15 @@ function enable() {
 
     this._enabledIcon = new Widget.DoNotDisturbIcon();
 
-    this._settings = new Settings.SettingsManager();
+    // this._settings = new Settings.SettingsManager();
+    this._notificationManager = new Settings.NotificationManager();
 
     this._disturbToggle.onToggleStateChanged(() => _toggle());
 
-    this._settings.onDoNotDisturbChanged(() => _sync());
-    this._settings.onShowIconChanged(() => _sync());
-    this._settings.onHideNotificationDotChanged(() => _sync());
-    this._settings.onMuteSoundChanged(() => _sync());
+    this._notificationManager.onDoNotDisturbChanged(() => _sync());
+    // this._settings.onShowIconChanged(() => _sync());
+    // this._settings.onHideNotificationDotChanged(() => _sync());
+    // this._settings.onMuteSoundChanged(() => _sync());
 
     this._sync();
 }
@@ -48,37 +49,37 @@ function disable() {
  * Toggle the status of the do not disturb mode in _settings.
  */
 function _toggle(){
-  this._settings.setDoNotDisturb(this._disturbToggle.getToggleState()); // This will trigger a call to _sync
+  this._notificationManager.setDoNotDisturb(this._disturbToggle.getToggleState()); // This will trigger a call to _sync
 }
 
 /**
  * Updates the UI based on the _settings. Includes switching the toggle state and showing the status icon.
  */
 function _sync(){
-  let enabled = this._settings.isDoNotDisturb();
-  let showIcon = this._settings.shouldShowIcon();
-  let hideDot = this._settings.shouldHideNotificationDot();
-  let muteSounds = this._settings.shouldMuteSound();
-  if(enabled && showIcon){
+  let enabled = this._notificationManager.getDoNotDisturb();
+  // let showIcon = this._settings.shouldShowIcon();
+  // let hideDot = this._settings.shouldHideNotificationDot();
+  // let muteSounds = this._settings.shouldMuteSound();
+  if(enabled){// && showIcon){
       this._enabledIcon.hide();
       this._enabledIcon.show();
   } else {
     this._enabledIcon.hide();
   }
 
-  if(enabled && hideDot){
-    this._hideDotController.hideDot();
-  } else {
-    this._hideDotController.unhideDot();
-  }
-
-  if(enabled && muteSounds){
-    this._settings.muteAllSounds();
-  } else if (muteSounds || this._lastMuteState) {
-    this._settings.unmuteAllSounds();
-  }
-
-  this._lastMuteState = muteSounds;
+  // if(enabled && hideDot){
+  //   this._hideDotController.hideDot();
+  // } else {
+  //   this._hideDotController.unhideDot();
+  // }
+  //
+  // if(enabled && muteSounds){
+  //   this._settings.muteAllSounds();
+  // } else if (muteSounds || this._lastMuteState) {
+  //   this._settings.unmuteAllSounds();
+  // }
+  //
+  // this._lastMuteState = muteSounds;
 
   this._disturbToggle.setToggleState(enabled);
 }
