@@ -2,7 +2,6 @@ const Gio = imports.gi.Gio;
 const Lang = imports.lang;
 const GLib = imports.gi.GLib;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-// const Util = imports.misc.util;
 
 /**
  * A class which handles all interactions with the settings.
@@ -16,60 +15,9 @@ var SettingsManager = new Lang.Class({
 	 */
 	_init(){
 		this.connections = [];
-		this.notificationConnections = [];
 		this._appSettings = _getSettings();
-		this._notificationSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.notifications' });
-		this._soundSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.sound' });
-		this.onAPIDNDChanged(() => {
-			if (this._appSettings.get_boolean('do-not-disturb') !== this.isDoNotDisturb()){
-				this.setDoNotDisturb(this._appSettings.get_boolean('do-not-disturb'));
-			}
-		});
-		this.onDoNotDisturbChanged(() => {
-			var isDND = this.isDoNotDisturb();
-			this._appSettings.set_boolean('do-not-disturb', isDND);
-		});
 	},
 
-	/**
-	 * Enable or disable do not disturb mode (hide banners and mute sounds if enabled).
-	 *
-	 * @param  {boolean} enabled - True if do not disturb should be enabled, false otherwise.
-	 */
-	setDoNotDisturb(enabled){
-		this._soundSettings.set_boolean('event-sounds', !enabled);
-		this._notificationSettings.set_boolean('show-banners', !enabled);
-		this._appSettings.set_boolean('do-not-disturb', enabled);
-	},
-
-	/**
-	 * Determines if do not disturb is enabled or not.
-	 *
-	 * @returns {boolean} - True if do not disturb is enabled, false otherwise.
-	 */
-	isDoNotDisturb(){
-		return !this._notificationSettings.get_boolean('show-banners');
-	},
-
-	/**
-	 * Calls a function when the status of the do not disturb setting has changed.
-	 *
-	 * @param {() => ()} fn - The function to call when the do not disturb setting is changed.
-	 */
-	onDoNotDisturbChanged(fn){
-		var id = this._notificationSettings.connect('changed::show-banners', fn);
-		this.notificationConnections.push(id);
-	},
-
-	/**
-	 * Calls a function when the status of the do not disturb external API setting has changed.
-	 *
-	 * @param {() => ()} fn - The function to call when the do not disturb setting is changed.
-	 */
-	onAPIDNDChanged(fn){
-		var id = this._appSettings.connect('changed::do-not-disturb', fn);
-		this.connections.push(id);
-	},
 
 	/**
 	 * Enable or disable the icon in the system panel when do not disturb mode is enabled.
@@ -127,165 +75,15 @@ var SettingsManager = new Lang.Class({
 		this.connections.push(id);
 	},
 
-	/**
-	 * Determines if the notification dot should be hidden when do not disturb is enabled.
-	 *
-	 * @returns {boolean} - True if the notification dot should be hidden when do not disturb is enabled, false otherwise.
-	 */
-	shouldHideNotificationDot(){
-		return this._appSettings.get_boolean('hide-dot');
-	},
-
-	/**
-	 * Enable or disable the hiding of the notification dot when do not disturb mode is enabled.
-	 *
-	 * @param  {boolean} hideDot - True if the notification dot should be hidden when do not disturb is enabled, false otherwise.
-	 */
-	setShouldHideNotificationDot(hideDot){
-		this._appSettings.set_boolean('hide-dot', hideDot);
-	},
-
-	/**
-	 * Calls a function when the status of the hide notification dot setting has changed.
-	 *
-	 * @param {() => ()} fn - The function to call when the hide notification dot setting is changed.
-	 */
-	onHideNotificationDotChanged(fn){
-		var id = this._appSettings.connect('changed::hide-dot', fn);
-		this.connections.push(id);
-	},
-
-	/**
-	 * Mutes all sounds.
-	 */
-	muteAllSounds(){
-		_runCmd(["amixer", "-q", "-D", "pulse", "sset", "Master", "mute"]);
-	},
-
-	/**
-	 * Unmutes all sounds.
-	 */
-	unmuteAllSounds(){
-		_runCmd(["amixer", "-q", "-D", "pulse", "sset", "Master", "unmute"]);
-	},
-
-
 	disconnectAll(){
 		this.connections.forEach((id) => {
 			this._appSettings.disconnect(id);
 		});
 		this.connections = [];
-
-		this.notificationConnections.forEach((id) => {
-			this._notificationSettings.disconnect(id);
-		});
-		this.notificationConnections = [];
 	}
 
 });
 
-var NotificationManager = new Lang.Class({
-	Name: 'NotificationManager',
-
-	/**
-	 *
-	 * @constructor
-	 */
-	_init(){
-		this._notificationConnections = [];
-    this._soundConnections = [];
-		this._appConnections = [];
-    this._notificationSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.notifications' });
-    this._soundSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.sound' });
-		this._appSettings = _getSettings();
-		this.onDoNotDisturbChanged(() => {
-			// Keeps the DND managed settings up to date with the DND setting
-			this.setDoNotDisturb(this.getDoNotDisturb());
-		});
-	},
-
-	/**
-	 *
-	 */
-	setShowBanners(showBanners){
-    this._notificationSettings.set_boolean('show-banners', showBanners);
-  },
-
-  getShowBanners(){
-    return !this._notificationSettings.get_boolean('show-banners');
-  },
-
-  onShowBannersChanged(fn){
-    var id = this._notificationSettings.connect('changed::show-banners', fn);
-		this._notificationConnections.push(id);
-    return id;
-  },
-
-  setShowInLockScreen(showInLockScreen){
-    this._notificationSettings.set_boolean('show-in-lock-screen', showInLockScreen);
-  },
-
-  getShowInLockScreen(){
-    this._notificationSettings.get_boolean('show-in-lock-screen');
-  },
-
-  onShowInLockScreenChanged(fn){
-    var id = this._notificationSettings.connect('changed::show-in-lock-screen', fn);
-		this._notificationConnections.push(id);
-    return id;
-  },
-
-  setEventSounds(eventSounds){
-    this._soundSettings.set_boolean('event-sounds', eventSounds);
-  },
-
-  getEventSounds(){
-    this._soundSettings.get_boolean('event-sounds');
-  },
-
-  onEventSoundsChanged(fn){
-    var id = this._soundSettings.connect('changed::event-sounds', fn);
-		this._soundConnections.push(id);
-    return id;
-  },
-
-  setDoNotDisturb(doNotDisturb){
-    this.setShowBanners(!doNotDisturb);
-    this.setEventSounds(!doNotDisturb);
-		// TODO: mute sounds, hide notification dot
-		if (doNotDisturb != this.getDoNotDisturb()){
-			// Prevents infinte loop
-    	this._appSettings.set_boolean('do-not-disturb', doNotDisturb);
-		}
-  },
-
-	getDoNotDisturb(){
-		return this._appSettings.get_boolean('do-not-disturb');
-	},
-
-	onDoNotDisturbChanged(fn){
-		var id = this._appSettings.connect('changed::do-not-disturb', fn);
-		this._appConnections.push(id);
-    return id;
-	},
-
-	disconnectAll(){
-		this._appConnections.forEach((id) => {
-			this._appSettings.disconnect(id);
-		});
-		this._appConnections = [];
-
-		this._notificationConnections.forEach((id) => {
-			this._notificationSettings.disconnect(id);
-		});
-		this._notificationConnections = [];
-
-		this._soundConnections.forEach((id) => {
-			this._soundSettings.disconnect(id);
-		});
-		this._soundConnections = [];
-	}
-});
 
 /**
  * A helper function to get the application specific settings. Adapted
@@ -312,13 +110,4 @@ function _getSettings() {
             throw "Schema \"%s\" not found.".format(schemaName);
         return new Gio.Settings({ schema: schemaName });
     }
-	}
-
-	function _runCmd(cmd){
-		var [res, stdout, stderr, status] = GLib.spawn_sync(
-	        null,
-	        cmd,
-	        null,
-	        GLib.SpawnFlags.SEARCH_PATH,
-	        null);
-	}
+}

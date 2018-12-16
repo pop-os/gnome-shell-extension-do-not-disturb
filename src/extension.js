@@ -1,5 +1,6 @@
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Settings = Me.imports.settings;
+const System = Me.imports.system;
 const Widget = Me.imports.widgets;
 
 /**
@@ -18,31 +19,28 @@ function enable() {
     this._disturbToggle = new Widget.DoNotDisturbToggle();
     this._disturbToggle.show();
 
-    this._hideDotController = new Widget.HideDotController();
-
     this._enabledIcon = new Widget.DoNotDisturbIcon();
 
-    // this._settings = new Settings.SettingsManager();
-    this._notificationManager = new Settings.NotificationManager();
+    this._settings = new Settings.SettingsManager();
+    this._soundManager = new System.AudioManager();
+    this._notificationManager = new System.NotificationManager();
 
     this._disturbToggle.onToggleStateChanged(() => _toggle());
-
     this._notificationManager.onDoNotDisturbChanged(() => _sync());
-    // this._settings.onShowIconChanged(() => _sync());
-    // this._settings.onHideNotificationDotChanged(() => _sync());
-    // this._settings.onMuteSoundChanged(() => _sync());
+    this._settings.onShowIconChanged(() => _sync());
+    this._settings.onMuteSoundChanged(() => _sync());
 
-    this._sync();
+    _sync();
 }
 
 /**
  * Disables the extension. Tears down all UI components.
  */
 function disable() {
+    this._notificationManager.setDoNotDisturb(false);
     this._disturbToggle.destroy();
     this._enabledIcon.destroy();
-    this._hideDotController.unhideDot();
-    this._settings.disconnectAll();
+    this._notificationManager.disconnectAll();
 }
 
 /**
@@ -57,29 +55,22 @@ function _toggle(){
  */
 function _sync(){
   let enabled = this._notificationManager.getDoNotDisturb();
-  // let showIcon = this._settings.shouldShowIcon();
-  // let hideDot = this._settings.shouldHideNotificationDot();
-  // let muteSounds = this._settings.shouldMuteSound();
-  if(enabled){// && showIcon){
+  let showIcon = this._settings.shouldShowIcon();
+  let muteSounds = this._settings.shouldMuteSound();
+  if(enabled && showIcon){
       this._enabledIcon.hide();
       this._enabledIcon.show();
   } else {
     this._enabledIcon.hide();
   }
 
-  // if(enabled && hideDot){
-  //   this._hideDotController.hideDot();
-  // } else {
-  //   this._hideDotController.unhideDot();
-  // }
-  //
-  // if(enabled && muteSounds){
-  //   this._settings.muteAllSounds();
-  // } else if (muteSounds || this._lastMuteState) {
-  //   this._settings.unmuteAllSounds();
-  // }
-  //
-  // this._lastMuteState = muteSounds;
+  if(enabled && muteSounds){
+    this._soundManager.mute();
+  } else if (muteSounds || this._lastMuteState) {
+    this._soundManager.unmute();
+  }
+
+  this._lastMuteState = muteSounds;
 
   this._disturbToggle.setToggleState(enabled);
 }

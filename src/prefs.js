@@ -22,7 +22,6 @@ function buildPrefsWidget() {
         border_width: 10, margin: 20});
     frame.add(createSwitch(settings.shouldShowIcon(), (b) => settings.setShowIcon(b), _("Enabled Icon"), _("Show an indicator icon when do not disturb is enabled.")));
     frame.add(createSwitch(settings.shouldMuteSound(), (b) => settings.setShouldMuteSound(b), _("Mute Sounds"), _("Mutes all sound when do not disturb is enabled.")));
-    frame.add(createSwitch(settings.shouldHideNotificationDot(), (b) => settings.setShouldHideNotificationDot(b), _("Hide Notification Dot"), _("Hides the notification dot when do not disturb is enabled.")));
 
     frame.show_all();
     return frame;
