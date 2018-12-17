@@ -5,6 +5,9 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const GnomeSession = imports.misc.gnomeSession;
 const Settings = Me.imports.settings;
 
+/**
+ * A class for interacting with the Gnome Presence API. 
+ */
 var GnomePresence = new Lang.Class({
 	Name: 'GnomePresence',
 
