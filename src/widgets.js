@@ -182,7 +182,7 @@ var HideDotController = new Lang.Class({
 	Name: 'HideDotController',
 
 	_init(){
-		this._dot = Main.panel._centerBox.get_child_at_index(0).get_child_at_index(0).get_first_child().get_child_at_index(2);
+		this._dot = Main.panel.statusArea.dateMenu._indicator.actor;
 	},
 
 	hideDot(){
