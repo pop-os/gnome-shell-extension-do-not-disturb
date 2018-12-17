@@ -5,6 +5,32 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const GnomeSession = imports.misc.gnomeSession;
 const Settings = Me.imports.settings;
 
+var GnomePresence = new Lang.Class({
+	Name: 'GnomePresence',
+
+	_init(){
+		this._presence = new GnomeSession.Presence();
+	},
+
+	setStatus(status){
+		this._presence.SetStatusRemote(status);
+	},
+
+	getStatus(){
+		return this._presence.status;
+	},
+
+	addStatusListener(fn){
+		return this._presence.connectSignal('StatusChanged', (proxy) => {
+    	fn(proxy.status);
+    });
+	},
+
+	removeStatusListener(listenerID){
+		this._presence.disconnectSignal(listenerID);
+	}
+});
+
 
 var AudioManager = new Lang.Class({
 	Name: 'AudioManager',
@@ -29,19 +55,17 @@ var NotificationManager = new Lang.Class({
 	_init(){
 		this._appConnections = [];
 		this._appSettings = Settings._getSettings();
-		this._presence = new GnomeSession.Presence((proxy, error) => {
-    	this.setDoNotDisturb(proxy.status == GnomeSession.PresenceStatus.BUSY);
-    });
-		this._id = this._presence.connectSignal('StatusChanged', (proxy, sender, [status]) => {
+		this._presence = new GnomePresence();
+		this._id = this._presence.addStatusListener((status) => {
     	this.setDoNotDisturb(status == GnomeSession.PresenceStatus.BUSY);
     });
-		this.onDoNotDisturbChanged(() => {
-			this.setDoNotDisturb(this.getDoNotDisturb());
-		});
+		// this.onDoNotDisturbChanged(() => {
+		// 	this.setDoNotDisturb(this.getDoNotDisturb());
+		// });
 	},
 
   setDoNotDisturb(doNotDisturb){
-		this._presence.SetStatusRemote(doNotDisturb ? GnomeSession.PresenceStatus.BUSY
+		this._presence.setStatus(doNotDisturb ? GnomeSession.PresenceStatus.BUSY
                                              : GnomeSession.PresenceStatus.AVAILABLE);
 		if (doNotDisturb != this.getDoNotDisturb()){
     	this._appSettings.set_boolean('do-not-disturb', doNotDisturb);
@@ -64,7 +88,7 @@ var NotificationManager = new Lang.Class({
 		});
 		this._appConnections = [];
 
-
+		this._presence.removeStatusListener(this._id);
 	}
 });
 
