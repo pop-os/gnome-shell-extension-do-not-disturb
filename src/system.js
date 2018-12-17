@@ -13,7 +13,7 @@ var GnomePresence = new Lang.Class({
 	},
 
 	setStatus(status){
-		this._presence.SetStatusRemote(status);
+		this._presence.SetStatusSync(status);
 	},
 
 	getStatus(){
@@ -21,8 +21,10 @@ var GnomePresence = new Lang.Class({
 	},
 
 	addStatusListener(fn){
-		return this._presence.connectSignal('StatusChanged', (proxy) => {
-    	fn(proxy.status);
+		return this._presence.connectSignal('StatusChanged', (proxy, _sender, [status]) => {
+			if (proxy.status != status){
+    		fn(status);
+			}
     });
 	},
 
@@ -59,9 +61,9 @@ var NotificationManager = new Lang.Class({
 		this._id = this._presence.addStatusListener((status) => {
     	this.setDoNotDisturb(status == GnomeSession.PresenceStatus.BUSY);
     });
-		// this.onDoNotDisturbChanged(() => {
-		// 	this.setDoNotDisturb(this.getDoNotDisturb());
-		// });
+		this.onDoNotDisturbChanged(() => {
+			this.setDoNotDisturb(this.getDoNotDisturb());
+		});
 	},
 
   setDoNotDisturb(doNotDisturb){
