@@ -45,7 +45,6 @@ function disable() {
   this._notificationManager.setDoNotDisturb(false);
   this._disturbToggle.destroy();
   this._enabledIcon.destroy();
-  this._notificationCount.destroy();
   this._notificationManager.disconnectAll();
 }
 
