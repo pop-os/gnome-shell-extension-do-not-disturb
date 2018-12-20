@@ -6,102 +6,115 @@ const GnomeSession = imports.misc.gnomeSession;
 const Settings = Me.imports.settings;
 
 /**
- * A class for interacting with the Gnome Presence API. 
+ * A class for interacting with the Gnome Presence API.
  */
-var GnomePresence = new Lang.Class({
-	Name: 'GnomePresence',
+class GnomePresence {
+  /**
+   * Construct a new GnomePresence proxy.
+   */
+  constructor() {
+    this._presence = new GnomeSession.Presence();
+  }
 
-	_init(){
-		this._presence = new GnomeSession.Presence();
-	},
+  /**
+   * Set the status of GnomePresence.
+   * @param  {number} newStatus A GnomeSession.PresenceStatus status constant to switch to.
+   */
+  set status(newStatus) {
+    this._presence.SetStatusSync(newStatus);
+  }
 
-	setStatus(status){
-		this._presence.SetStatusSync(status);
-	},
+  /**
+   * Get the status of GnomePresence.
+   * @return {number} The current GnomeSession.PresenceStatus status.
+   */
+  get status() {
+    return this._presence.status;
+  }
 
-	getStatus(){
-		return this._presence.status;
-	},
-
-	addStatusListener(fn){
-		return this._presence.connectSignal('StatusChanged', (proxy, _sender, [status]) => {
-			if (proxy.status != status){
-    		fn(status);
-			}
+  /**
+   * Add a listener to the GnomePresence status.
+   * @param {Function} fn The function to run when the status is changed (passed the current status).
+   * @return {number} The ID of the listener, used by removeStatusListener.
+   */
+  addStatusListener(fn) {
+    return this._presence.connectSignal('StatusChanged', (proxy, _sender, [status]) => {
+      if (proxy.status != status) {
+        fn(status);
+      }
     });
-	},
+  }
 
-	removeStatusListener(listenerID){
-		this._presence.disconnectSignal(listenerID);
-	}
-});
+  /**
+   * Remove a status listener to the GnomePresence status.
+   * @param  {number} listenerID The ID of the listener to remove.
+   */
+  removeStatusListener(listenerID) {
+    this._presence.disconnectSignal(listenerID);
+  }
+}
 
+/**
+ * A class for managing the audio on Gnome.
+ */
+class AudioManager {
+  /**
+   * Mute the audio stream.
+   */
+  mute() {
+    _runCmd(["amixer", "-q", "-D", "pulse", "sset", "Master", "mute"]);
+  }
 
-var AudioManager = new Lang.Class({
-	Name: 'AudioManager',
+  /**
+   * Unmute the audio stream.
+   */
+  unmute() {
+    _runCmd(["amixer", "-q", "-D", "pulse", "sset", "Master", "unmute"]);
+  }
+}
 
-	mute(){
-		_runCmd(["amixer", "-q", "-D", "pulse", "sset", "Master", "mute"]);
-	},
+class NotificationManager {
 
-	unmute(){
-		_runCmd(["amixer", "-q", "-D", "pulse", "sset", "Master", "unmute"]);
-	}
-})
-
-
-var NotificationManager = new Lang.Class({
-	Name: 'NotificationManager',
-
-	/**
-	 *
-	 * @constructor
-	 */
-	_init(){
-		this._appConnections = [];
-		this._appSettings = Settings._getSettings();
-		this._presence = new GnomePresence();
-		this._id = this._presence.addStatusListener((status) => {
-    	this.setDoNotDisturb(status == GnomeSession.PresenceStatus.BUSY);
+  constructor() {
+    this._appConnections = [];
+    this._appSettings = Settings._getSettings();
+    this._presence = new GnomePresence();
+    this._id = this._presence.addStatusListener((status) => {
+      this.setDoNotDisturb(status == GnomeSession.PresenceStatus.BUSY);
     });
-		this.onDoNotDisturbChanged(() => {
-			this.setDoNotDisturb(this.getDoNotDisturb());
-		});
-	},
+    this.onDoNotDisturbChanged(() => {
+      this.setDoNotDisturb(this.getDoNotDisturb());
+    });
+  }
 
-  setDoNotDisturb(doNotDisturb){
-		this._presence.setStatus(doNotDisturb ? GnomeSession.PresenceStatus.BUSY
-                                             : GnomeSession.PresenceStatus.AVAILABLE);
-		if (doNotDisturb != this.getDoNotDisturb()){
-    	this._appSettings.set_boolean('do-not-disturb', doNotDisturb);
-		}
-  },
+  setDoNotDisturb(doNotDisturb) {
+    this._presence.status = doNotDisturb ? GnomeSession.PresenceStatus.BUSY :
+      GnomeSession.PresenceStatus.AVAILABLE;
+    if (doNotDisturb != this.getDoNotDisturb()) {
+      this._appSettings.set_boolean('do-not-disturb', doNotDisturb);
+    }
+  }
 
-	getDoNotDisturb(){
-		return this._appSettings.get_boolean('do-not-disturb');
-	},
+  getDoNotDisturb() {
+    return this._appSettings.get_boolean('do-not-disturb');
+  }
 
-	onDoNotDisturbChanged(fn){
-		var id = this._appSettings.connect('changed::do-not-disturb', fn);
-		this._appConnections.push(id);
+  onDoNotDisturbChanged(fn) {
+    var id = this._appSettings.connect('changed::do-not-disturb', fn);
+    this._appConnections.push(id);
     return id;
-	},
+  }
 
-	disconnectAll(){
-		this._appConnections.forEach((id) => {
-			this._appSettings.disconnect(id);
-		});
-		this._appConnections = [];
+  disconnectAll() {
+    this._appConnections.forEach((id) => {
+      this._appSettings.disconnect(id);
+    });
+    this._appConnections = [];
 
-		this._presence.removeStatusListener(this._id);
-	}
-});
+    this._presence.removeStatusListener(this._id);
+  }
+}
 
-function _runCmd(cmd){
-  var [res, stdout, stderr, status] = GLib.spawn_sync(
-        null,
-        cmd,
-        null,
-        GLib.SpawnFlags.SEARCH_PATH,
-        null);
+function _runCmd(cmd) {
+  GLib.spawn_sync(null, cmd, null, GLib.SpawnFlags.SEARCH_PATH, null);
 }
