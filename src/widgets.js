@@ -161,7 +161,9 @@ class DoNotDisturbIcon {
   updateCount(newCount){
     if (newCount == 0){
       this._countLbl.add_style_class_name("hide-dot");
+      // Main.panel.statusArea.dateMenu._indicator.actor.hide();
     } else {
+      // Main.panel.statusArea.dateMenu._indicator.actor.show();
       this._countLbl.set_text("" + newCount);
       this._countLbl.remove_style_class_name("hide-dot");
     }
@@ -172,12 +174,14 @@ class DoNotDisturbIcon {
    */
   show() {
     this._indicatorArea.add_child(this._iconBox);
+    Main.panel.statusArea.dateMenu._indicator.actor.add_style_class_name("hide-dot");
   }
 
   /**
    * Hides the status icon.
    */
   hide() {
+    Main.panel.statusArea.dateMenu._indicator.actor.remove_style_class_name("hide-dot");
     this._indicatorArea.remove_child(this._iconBox);
   }
 
