@@ -148,20 +148,37 @@ class DoNotDisturbIcon {
       icon_name: icon,
       style_class: 'popup-menu-icon do-not-disturb-icon'
     });
+
+    this._countLbl = new St.Label();
+    this.updateCount(0);
+    this._countLbl.add_style_class_name("notification-count");
+
+    this._iconBox = new St.BoxLayout();
+    this._iconBox.add_actor(this._enabledIcon);
+    this._iconBox.add_actor(this._countLbl);
+  }
+
+  updateCount(newCount){
+    if (newCount == 0){
+      this._countLbl.add_style_class_name("hide-dot");
+    } else {
+      this._countLbl.set_text("" + newCount);
+      this._countLbl.remove_style_class_name("hide-dot");
+    }
   }
 
   /**
    * Shows the status icon.
    */
   show() {
-    this._indicatorArea.add_child(this._enabledIcon);
+    this._indicatorArea.add_child(this._iconBox);
   }
 
   /**
    * Hides the status icon.
    */
   hide() {
-    this._indicatorArea.remove_child(this._enabledIcon);
+    this._indicatorArea.remove_child(this._iconBox);
   }
 
   /**
@@ -169,7 +186,11 @@ class DoNotDisturbIcon {
    */
   destroy() {
     if (this._enabledIcon) {
-      this._indicatorArea.remove_child(this._enabledIcon);
+      this._indicatorArea.remove_child(this._iconBox);
+      this._iconBox.destroy();
+      this._iconBox = 0;
+      this._countLbl.destroy();
+      this._countLbl = 0;
       this._enabledIcon.destroy();
       this._enabledIcon = 0;
     }

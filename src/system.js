@@ -1,6 +1,8 @@
 const Gio = imports.gi.Gio;
 const Lang = imports.lang;
 const GLib = imports.gi.GLib;
+const Main = imports.ui.main;
+const Mainloop = imports.mainloop;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const GnomeSession = imports.misc.gnomeSession;
 const Settings = Me.imports.settings;
@@ -103,6 +105,34 @@ class NotificationManager {
     var id = this._appSettings.connect('changed::do-not-disturb', fn);
     this._appConnections.push(id);
     return id;
+  }
+
+  /**
+   * Get the current number of notifications in the system tray.
+   * @return {number} The number of notifications.
+   */
+  get notificationCount(){
+    return Main.panel.statusArea['dateMenu']._indicator._sources.length;
+  }
+
+  /**
+   * Add a listener for when the notification count changes.
+   * @param {Function} fn The function to call when the notification count changes (passed the current notification count).
+   * @return {number} The ID of the listener.
+   */
+  addNotificationCountListener(fn){
+    return Mainloop.timeout_add(1000, () => {
+      fn(this.notificationCount);
+      return true;
+    });
+  }
+
+  /**
+   * Remove a notification count listener.
+   * @param  {number} id The ID of the listener to remove.
+   */
+  removeNotificationCountListener(id){
+    Mainloop.source_remove(id);
   }
 
   disconnectAll() {

@@ -14,3 +14,7 @@
   color: transparent;
   width: 0;
 }
+
+.notification-count {
+  color: rgba(255, 255, 255, 0.6);
+}

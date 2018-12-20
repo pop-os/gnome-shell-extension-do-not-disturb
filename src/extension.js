@@ -23,6 +23,11 @@ function enable() {
   this._settings = new Settings.SettingsManager();
   this._soundManager = new System.AudioManager();
   this._notificationManager = new System.NotificationManager();
+  this._enabledIcon.updateCount(this._notificationManager.notificationCount)
+
+  this.notificationListenerID = this._notificationManager.addNotificationCountListener((count) => {
+    this._enabledIcon.updateCount(count);
+  });
 
   this._disturbToggle.onToggleStateChanged(() => _toggle());
   this._notificationManager.onDoNotDisturbChanged(() => _sync());
@@ -36,9 +41,11 @@ function enable() {
  * Disables the extension. Tears down all UI components.
  */
 function disable() {
+  this._notificationManager.removeNotificationCountListener(this.notificationListenerID);
   this._notificationManager.setDoNotDisturb(false);
   this._disturbToggle.destroy();
   this._enabledIcon.destroy();
+  this._notificationCount.destroy();
   this._notificationManager.disconnectAll();
 }
 
