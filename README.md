@@ -43,6 +43,11 @@ gsettings get org.gnome.shell.extensions.kylecorry31-do-not-disturb do-not-distu
 
 **Note: you may need to set the schema dir of gsettings to the .local directory by adding this line to the commands above: `--schemadir ~/.local/share/gnome-shell/extensions/donotdisturb@kylecorry31.github.io/schemas`**
 
+## FAQ
+**Q: How do I prevent notifications from chrome?**
+
+A: Enable the native notification flag in chrome: `chrome://flags/#enable-native-notifications`
+
 ## Contributing
 Please fork this repo and submit a pull request to contribute. I will review all changes and respond if they are accepted or rejected (as well as reasons, so it will be accepted). I am working with System76 to ensure this extension fits into Pop!\_OS, so some changes may not be approved or will need to be modified upon their request.
 
