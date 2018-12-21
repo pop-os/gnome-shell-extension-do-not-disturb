@@ -11,9 +11,14 @@
         <summary>Mutes all sound when do not disturb is enabled.</summary>
         <description></description>
     </key>
-    <key type="b" name="hide-dot">
+    <key type="b" name="show-dot">
         <default>false</default>
-        <summary>Hide the notification dot when do not disturb is enabled.</summary>
+        <summary>Shows a dot next to the date when notifications arrive during do not disturb mode.</summary>
+        <description></description>
+    </key>
+    <key type="b" name="show-count">
+        <default>true</default>
+        <summary>Displays the number of notifications during do not disturb mode.</summary>
         <description></description>
     </key>
     <key type="b" name="do-not-disturb">

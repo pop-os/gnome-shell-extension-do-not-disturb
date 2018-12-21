@@ -8,8 +8,7 @@ const _ = Gettext.gettext;
 const Settings = Me.imports.settings;
 const Lib = Me.imports.lib;
 
-function init() {
-}
+function init() {}
 
 /**
  * Builds the GTK widget which displays all of the application specific settings.
@@ -17,15 +16,63 @@ function init() {
  * @returns {Gtk.Box} - The frame to display.
  */
 function buildPrefsWidget() {
-    let settings = new Settings.SettingsManager();
-    let frame = new Gtk.Box({orientation: Gtk.Orientation.VERTICAL,
-        border_width: 10, margin: 20});
-    frame.add(createSwitch(settings.shouldShowIcon(), (b) => settings.setShowIcon(b), _("Enabled Icon"), _("Show an indicator icon when do not disturb is enabled.")));
-    frame.add(createSwitch(settings.shouldMuteSound(), (b) => settings.setShouldMuteSound(b), _("Mute Sounds"), _("Mutes all sound when do not disturb is enabled.")));
-    frame.add(createSwitch(settings.shouldHideNotificationDot(), (b) => settings.setShouldHideNotificationDot(b), _("Hide Notification Dot"), _("Hides the notification dot when do not disturb is enabled.")));
+  let settings = new Settings.SettingsManager();
+  let frame = new Gtk.Box({
+    orientation: Gtk.Orientation.VERTICAL,
+    border_width: 10,
+    margin: 20
+  });
 
-    frame.show_all();
-    return frame;
+  var box = new Gtk.Box({
+    orientation: Gtk.Orientation.HORIZONTAL
+  });
+
+  frame.add(createSwitch(settings.shouldShowIcon(), (b) => {settings.setShowIcon(b); if (b) { box.show(); } else { box.hide(); } }, _("Enabled Icon"), _("Show an indicator icon when do not disturb is enabled.")));
+
+  var indicatorLbl = new Gtk.Label({
+    label: "Notification Indicator",
+    xalign: 0
+  });
+
+  var showCountRadio = createRadioButton(settings.showCount, (b) => { settings.showCount = b }, _("Count"));
+  var showDotRadio = createRadioButton(settings.showDot, (b) => { settings.showDot = b }, _("Dot"), showCountRadio);
+  var showNothingRadio = createRadioButton(!(settings.showCount || settings.showDot), (b) => { }, _("Nothing"), showCountRadio);
+
+
+  box.pack_start(indicatorLbl, true, true, 0);
+  box.add(showCountRadio);
+  box.add(showDotRadio);
+  box.add(showNothingRadio);
+
+  frame.add(box);
+
+  frame.add(createSwitch(settings.shouldMuteSound(), (b) => settings.setShouldMuteSound(b), _("Mute Sounds"), _("Mutes all sound when do not disturb is enabled.")));
+
+  frame.show_all();
+
+  if (!settings.shouldShowIcon()){
+    box.hide();
+  }
+
+  return frame;
+}
+
+function createRadioButton(active, set, text, group){
+  var widget;
+  if (group){
+    widget = Gtk.RadioButton.new_with_label_from_widget(group, text);
+    widget.set_active(active);
+  } else {
+    widget = new Gtk.RadioButton({
+      active: active,
+      label: text
+    });
+  }
+  widget.connect('notify::active', function(switch_widget) {
+    set(switch_widget.active);
+  });
+
+  return widget;
 }
 
 /**
@@ -38,16 +85,24 @@ function buildPrefsWidget() {
  * @returns {Gtk.Box} - The widget containing the switch and label.
  */
 function createSwitch(active, set, text, tooltip) {
-    let box = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL });
-    let label = new Gtk.Label({ label: text, xalign: 0, tooltip_text:tooltip });
-    let widget = new Gtk.Switch({ active: active });
-    widget.connect('notify::active', function(switch_widget) {
-        set(switch_widget.active);
-    });
+  let box = new Gtk.Box({
+    orientation: Gtk.Orientation.HORIZONTAL
+  });
+  let label = new Gtk.Label({
+    label: text,
+    xalign: 0,
+    tooltip_text: tooltip
+  });
+  let widget = new Gtk.Switch({
+    active: active
+  });
+  widget.connect('notify::active', function(switch_widget) {
+    set(switch_widget.active);
+  });
 
-    box.pack_start(label, true, true, 0);
-    box.add(widget);
-    return box;
+  box.pack_start(label, true, true, 0);
+  box.add(widget);
+  return box;
 }
 
 Lib.initTranslations(Me);

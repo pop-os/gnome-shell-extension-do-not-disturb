@@ -1,16 +1,20 @@
 .clear-button {
-	margin: 0 16px;
+  margin: 0 16px;
 }
 
 .do-not-disturb:active {
-	background-color: inherit !important; 
+  background-color: inherit !important;
 }
 
 .do-not-disturb-icon {
-	color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .hide-dot {
-	color: transparent;
-	width: 0;
+  color: transparent;
+  width: 0;
+}
+
+.notification-count {
+  color: rgba(255, 255, 255, 0.6);
 }
