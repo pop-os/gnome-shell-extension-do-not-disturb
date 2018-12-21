@@ -22,11 +22,57 @@ function buildPrefsWidget() {
     border_width: 10,
     margin: 20
   });
-  frame.add(createSwitch(settings.shouldShowIcon(), (b) => settings.setShowIcon(b), _("Enabled Icon"), _("Show an indicator icon when do not disturb is enabled.")));
+
+  var box = new Gtk.Box({
+    orientation: Gtk.Orientation.HORIZONTAL
+  });
+
+  frame.add(createSwitch(settings.shouldShowIcon(), (b) => {settings.setShowIcon(b); if (b) { box.show(); } else { box.hide(); } }, _("Enabled Icon"), _("Show an indicator icon when do not disturb is enabled.")));
+
+  var indicatorLbl = new Gtk.Label({
+    label: "Notification Indicator",
+    xalign: 0
+  });
+
+  var showCountRadio = createRadioButton(settings.showCount, (b) => { settings.showCount = b }, _("Count"));
+  var showDotRadio = createRadioButton(settings.showDot, (b) => { settings.showDot = b }, _("Dot"), showCountRadio);
+  var showNothingRadio = createRadioButton(!(settings.showCount || settings.showDot), (b) => { }, _("Nothing"), showCountRadio);
+
+
+  box.pack_start(indicatorLbl, true, true, 0);
+  box.add(showCountRadio);
+  box.add(showDotRadio);
+  box.add(showNothingRadio);
+
+  frame.add(box);
+
   frame.add(createSwitch(settings.shouldMuteSound(), (b) => settings.setShouldMuteSound(b), _("Mute Sounds"), _("Mutes all sound when do not disturb is enabled.")));
 
   frame.show_all();
+
+  if (!settings.shouldShowIcon()){
+    box.hide();
+  }
+
   return frame;
+}
+
+function createRadioButton(active, set, text, group){
+  var widget;
+  if (group){
+    widget = Gtk.RadioButton.new_with_label_from_widget(group, text);
+    widget.set_active(active);
+  } else {
+    widget = new Gtk.RadioButton({
+      active: active,
+      label: text
+    });
+  }
+  widget.connect('notify::active', function(switch_widget) {
+    set(switch_widget.active);
+  });
+
+  return widget;
 }
 
 /**

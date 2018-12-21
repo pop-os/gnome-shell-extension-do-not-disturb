@@ -156,16 +156,24 @@ class DoNotDisturbIcon {
     this._iconBox = new St.BoxLayout();
     this._iconBox.add_actor(this._enabledIcon);
     this._iconBox.add_actor(this._countLbl);
+    this.showDot = false;
+    this.showCount = true;
   }
 
   updateCount(newCount){
     if (newCount == 0){
       this._countLbl.add_style_class_name("hide-dot");
-      // Main.panel.statusArea.dateMenu._indicator.actor.hide();
     } else {
-      // Main.panel.statusArea.dateMenu._indicator.actor.show();
-      this._countLbl.set_text("" + newCount);
-      this._countLbl.remove_style_class_name("hide-dot");
+      if (this.showCount){
+        this._countLbl.set_text("" + newCount);
+        this._countLbl.remove_style_class_name("hide-dot");
+      } else if(this.showDot){
+        this._countLbl.set_text("\u25CF");
+        this._countLbl.remove_style_class_name("hide-dot");
+      } else {
+        this._countLbl.add_style_class_name("hide-dot");
+      }
+
     }
   }
 

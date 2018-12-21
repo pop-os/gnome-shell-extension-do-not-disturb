@@ -73,6 +73,58 @@ class SettingsManager {
     this.connections.push(id);
   }
 
+  /**
+   * Sets whether to show the count of notifications or not.
+   * @param  {Boolean} newShowCount True if the notification count should be shown.
+   */
+  set showCount(newShowCount){
+    this._appSettings.set_boolean('show-count', newShowCount);
+  }
+
+  /**
+   * Determines whether to show the notification count.
+   * @return {Boolean} True if the notification count should be shown.
+   */
+  get showCount(){
+    return this._appSettings.get_boolean('show-count');
+  }
+
+  /**
+   * Calls a function when the status of the show count setting has changed.
+   *
+   * @param {() => ()} fn - The function to call when the show count setting is changed.
+   */
+  onShowCountChanged(fn){
+    var id = this._appSettings.connect('changed::show-count', fn);
+    this.connections.push(id);
+  }
+
+  /**
+   * Sets whether to show an indicator of hidden notifications or not.
+   * @param  {Boolean} newShowDot True if the notification dot should be shown.
+   */
+  set showDot(newShowDot){
+    this._appSettings.set_boolean('show-dot', newShowDot);
+  }
+
+  /**
+   * Determines whether to show the notification dot.
+   * @return {Boolean} True if the notification dot should be shown.
+   */
+  get showDot(){
+    return this._appSettings.get_boolean('show-dot');
+  }
+
+  /**
+   * Calls a function when the status of the show dot setting has changed.
+   *
+   * @param {() => ()} fn - The function to call when the show dot setting is changed.
+   */
+  onShowDotChanged(fn){
+    var id = this._appSettings.connect('changed::show-dot', fn);
+    this.connections.push(id);
+  }
+
   disconnectAll() {
     this.connections.forEach((id) => {
       this._appSettings.disconnect(id);

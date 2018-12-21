@@ -33,6 +33,8 @@ function enable() {
   this._notificationManager.onDoNotDisturbChanged(() => _sync());
   this._settings.onShowIconChanged(() => _sync());
   this._settings.onMuteSoundChanged(() => _sync());
+  this._settings.onShowCountChanged(() => _sync());
+  this._settings.onShowDotChanged(() => _sync());
 
   _sync();
 }
@@ -62,12 +64,18 @@ function _sync() {
   let enabled = this._notificationManager.getDoNotDisturb();
   let showIcon = this._settings.shouldShowIcon();
   let muteSounds = this._settings.shouldMuteSound();
+
+  this._enabledIcon.showDot = this._settings.showDot;
+  this._enabledIcon.showCount = this._settings.showCount;
+
   if (enabled && showIcon) {
     this._enabledIcon.hide();
     this._enabledIcon.show();
   } else {
     this._enabledIcon.hide();
   }
+
+  this._enabledIcon.updateCount(this._notificationManager.notificationCount);
 
   if (enabled && muteSounds) {
     this._soundManager.mute();
