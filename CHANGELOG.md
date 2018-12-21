@@ -1,10 +1,13 @@
 # Changelog - Do not disturb extension
 
-## v2.0.0 - December 16, 2018
+## v2.0.0 - December 21, 2018
 
-**Breaking changes:**
+**Added:**
+- Notification count or notification dot display
+
+**Changed:**
 - Switched to Gnome Session Presence rather than show notification banners for DND
-- Notification dot no longer shows up
+- Default notification dot no longer shows up
 
 ## v1.2.1 - December 7, 2018
 
