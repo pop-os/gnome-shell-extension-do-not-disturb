@@ -1,5 +1,10 @@
 # Changelog - Do not disturb extension
 
+## v2.0.1 - December 24, 2018
+
+**Bug Fixes:**
+- Notification count now reflects all notifications, even from the same source
+
 ## v2.0.0 - December 21, 2018
 
 **Added:**
