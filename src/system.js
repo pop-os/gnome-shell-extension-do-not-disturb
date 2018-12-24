@@ -111,7 +111,9 @@ class NotificationManager {
    * @return {number} The number of notifications.
    */
   get notificationCount(){
-    return Main.messageTray.getSources().length;
+    var count = 0;
+    Main.messageTray.getSources().forEach(n => count += n.count);
+    return count;
   }
 
   /**
