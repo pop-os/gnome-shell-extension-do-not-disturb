@@ -20,7 +20,8 @@ function buildPrefsWidget() {
   let frame = new Gtk.Box({
     orientation: Gtk.Orientation.VERTICAL,
     border_width: 10,
-    margin: 20
+    margin: 20,
+    spacing: 8
   });
 
   var box = new Gtk.Box({
