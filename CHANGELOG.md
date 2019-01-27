@@ -1,5 +1,10 @@
 # Changelog - Do not disturb extension
 
+## v2.0.2 - January 27, 2019
+
+**Bug Fixes:**
+- Do not disturb stays enabled after suspend
+
 ## v2.0.1 - December 24, 2018
 
 **Bug Fixes:**

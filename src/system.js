@@ -88,8 +88,12 @@ class NotificationManager {
     });
   }
 
+  disable(){
+    this._presence.status = GnomeSession.PresenceStatus.AVAILABLE;
+  }
+
   setDoNotDisturb(doNotDisturb) {
-    this._presence.status = doNotDisturb ? GnomeSession.PresenceStatus.BUSY :
+    this._presence.status = doNotDisturb ? GnomeSession.PresenceStatus.BUSY:
       GnomeSession.PresenceStatus.AVAILABLE;
     if (doNotDisturb != this.getDoNotDisturb()) {
       this._appSettings.set_boolean('do-not-disturb', doNotDisturb);

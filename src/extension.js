@@ -36,6 +36,12 @@ function enable() {
   this._settings.onShowCountChanged(() => _sync());
   this._settings.onShowDotChanged(() => _sync());
 
+  if (this._notificationManager.getDoNotDisturb()){
+    // Toggle DND to restart it
+    this._notificationManager.setDoNotDisturb(false);
+    this._notificationManager.setDoNotDisturb(true);
+  }
+
   _sync();
 }
 
@@ -44,10 +50,15 @@ function enable() {
  */
 function disable() {
   this._notificationManager.removeNotificationCountListener(this.notificationListenerID);
-  this._notificationManager.setDoNotDisturb(false);
+  // this._notificationManager.setDoNotDisturb(false);
   this._disturbToggle.destroy();
   this._enabledIcon.destroy();
   this._notificationManager.disconnectAll();
+  this._notificationManager.disable();
+  let muteSounds = this._settings.shouldMuteSound();
+  if (muteSounds){
+    this._soundManager.unmute();
+  }
 }
 
 /**
