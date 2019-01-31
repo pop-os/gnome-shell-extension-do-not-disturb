@@ -80,6 +80,13 @@ class NotificationManager {
     this._appConnections = [];
     this._appSettings = Settings._getSettings();
     this._presence = new GnomePresence();
+
+    if (this.getDoNotDisturb()){
+      this._presence.status = GnomeSession.PresenceStatus.BUSY;
+    } else {
+      this._presence.status = GnomeSession.PresenceStatus.AVAILABLE;
+    }
+
     this._id = this._presence.addStatusListener((status) => {
       this.setDoNotDisturb(status == GnomeSession.PresenceStatus.BUSY);
     });
