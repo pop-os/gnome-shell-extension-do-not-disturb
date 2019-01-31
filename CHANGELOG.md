@@ -1,5 +1,10 @@
 # Changelog - Do not disturb extension
 
+## v2.0.3 - January 31, 2019
+
+**Changed:**
+- Minor reorganizing
+
 ## v2.0.2 - January 27, 2019
 
 **Bug Fixes:**
