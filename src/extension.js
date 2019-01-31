@@ -36,13 +36,13 @@ function enable() {
   this._settings.onShowCountChanged(() => _sync());
   this._settings.onShowDotChanged(() => _sync());
 
+  _sync();
+
   if (this._notificationManager.getDoNotDisturb()){
     // Toggle DND to restart it
     this._notificationManager.setDoNotDisturb(false);
     this._notificationManager.setDoNotDisturb(true);
   }
-
-  _sync();
 }
 
 /**
