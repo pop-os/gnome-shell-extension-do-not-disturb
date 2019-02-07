@@ -14,6 +14,7 @@ function init() {}
 function enable() {
 
   this._lastMuteState = false;
+  this._hasMutedSound = false;
 
   this._disturbToggle = new Widget.DoNotDisturbToggle();
   this._disturbToggle.show();
@@ -50,7 +51,7 @@ function disable() {
   this._notificationManager.disconnectAll();
   this._notificationManager.disable();
   let muteSounds = this._settings.shouldMuteSound();
-  if (muteSounds){
+  if (muteSounds && this._hasMutedSound){
     this._soundManager.unmute();
   }
 }
@@ -84,8 +85,10 @@ function _sync() {
 
   if (enabled && muteSounds) {
     this._soundManager.mute();
-  } else if (muteSounds || this._lastMuteState) {
+    this._hasMutedSound = true;
+  } else if ((muteSounds || this._lastMuteState) && this._hasMutedSound) {
     this._soundManager.unmute();
+    this._hasMutedSound = false;
   }
 
   this._lastMuteState = muteSounds;
