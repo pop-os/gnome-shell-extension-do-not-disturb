@@ -190,7 +190,9 @@ class DoNotDisturbIcon {
    */
   hide() {
     Main.panel.statusArea.dateMenu._indicator.actor.remove_style_class_name("hide-dot");
-    this._indicatorArea.remove_child(this._iconBox);
+    if (this._iconBox.get_parent()) {
+      this._indicatorArea.remove_child(this._iconBox);
+    }
   }
 
   /**
@@ -198,7 +200,9 @@ class DoNotDisturbIcon {
    */
   destroy() {
     if (this._enabledIcon) {
-      this._indicatorArea.remove_child(this._iconBox);
+      if (this._iconBox.get_parent()) {
+        this._indicatorArea.remove_child(this._iconBox);
+      }
       this._iconBox.destroy();
       this._iconBox = 0;
       this._countLbl.destroy();
