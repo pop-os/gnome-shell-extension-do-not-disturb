@@ -203,12 +203,12 @@ class DoNotDisturbIcon {
       if (this._iconBox.get_parent()) {
         this._indicatorArea.remove_child(this._iconBox);
       }
-      this._iconBox.destroy();
-      this._iconBox = 0;
       this._countLbl.destroy();
       this._countLbl = 0;
       this._enabledIcon.destroy();
       this._enabledIcon = 0;
+      this._iconBox.destroy();
+      this._iconBox = 0;
     }
   }
 }
