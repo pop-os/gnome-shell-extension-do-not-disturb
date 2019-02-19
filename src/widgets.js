@@ -27,7 +27,6 @@ class DoNotDisturbToggle {
    */
   show() {
     this._clearButton = Main.panel.statusArea.dateMenu._messageList._clearButton;
-    this._clearButtonHeight = this._clearButton.get_height();
 
     this._calendarBox = this._clearButton.get_parent();
 
@@ -52,8 +51,6 @@ class DoNotDisturbToggle {
 
     this._clearBox.add_actor(this._disturbToggle.actor);
 
-
-    this._clearButton.set_height(this._disturbToggle.actor.get_height());
     this._clearButton.reparent(this._clearBox);
     this._clearButton.add_style_class_name('clear-button');
 
@@ -75,7 +72,6 @@ class DoNotDisturbToggle {
 
     if (this._clearButton) {
       this._clearButton.reparent(this._calendarBox);
-      this._clearButton.set_height(this._clearButtonHeight);
       this._clearButton.remove_style_class_name('clear-button');
     }
 
