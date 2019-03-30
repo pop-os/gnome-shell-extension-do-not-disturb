@@ -62,6 +62,7 @@ The implementation has been done by me, and employees from System76 have added d
 ### Contributors
 - [@kylecorry31](https://github.com/kylecorry31) - Initial work on the extension
 - [@pop-os](https://github.com/pop-os) - Specifications and use cases
+- [@ArtyomZorin](https://github.com/ArtyomZorin) - Several bug fixes
 - [@r4dixx](https://github.com/r4dixx) - French translations
 
 ## License
