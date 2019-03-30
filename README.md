@@ -3,7 +3,7 @@ An extension to prevent notifications from interrupting you on GNOME.
 
 ![Do not disturb](screenshots/dnd.gif)
 
-**Version 2.0.3** - [Changelog](CHANGELOG.md)
+**Version 2.0.4** - [Changelog](CHANGELOG.md)
 
 Do not disturb mode will block notifications from appearing on the screen, and will only display a dot next to the date indicating that a notification has arrived.
 

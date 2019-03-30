@@ -1,5 +1,10 @@
 # Changelog - Do not disturb extension
 
+## v2.0.4 - March 30, 2019
+
+**Bug Fixes:**
+- Fixed errors removing the icon
+
 ## v2.0.3 - January 31, 2019
 
 **Changed:**
