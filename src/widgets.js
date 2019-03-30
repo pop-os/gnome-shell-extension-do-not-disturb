@@ -27,7 +27,6 @@ class DoNotDisturbToggle {
    */
   show() {
     this._clearButton = Main.panel.statusArea.dateMenu._messageList._clearButton;
-    this._clearButtonHeight = this._clearButton.get_height();
 
     this._calendarBox = this._clearButton.get_parent();
 
@@ -52,8 +51,6 @@ class DoNotDisturbToggle {
 
     this._clearBox.add_actor(this._disturbToggle.actor);
 
-
-    this._clearButton.set_height(this._disturbToggle.actor.get_height());
     this._clearButton.reparent(this._clearBox);
     this._clearButton.add_style_class_name('clear-button');
 
@@ -75,7 +72,6 @@ class DoNotDisturbToggle {
 
     if (this._clearButton) {
       this._clearButton.reparent(this._calendarBox);
-      this._clearButton.set_height(this._clearButtonHeight);
       this._clearButton.remove_style_class_name('clear-button');
     }
 
@@ -190,7 +186,9 @@ class DoNotDisturbIcon {
    */
   hide() {
     Main.panel.statusArea.dateMenu._indicator.actor.remove_style_class_name("hide-dot");
-    this._indicatorArea.remove_child(this._iconBox);
+    if (this._iconBox.get_parent()) {
+      this._indicatorArea.remove_child(this._iconBox);
+    }
   }
 
   /**
@@ -198,13 +196,15 @@ class DoNotDisturbIcon {
    */
   destroy() {
     if (this._enabledIcon) {
-      this._indicatorArea.remove_child(this._iconBox);
-      this._iconBox.destroy();
-      this._iconBox = 0;
+      if (this._iconBox.get_parent()) {
+        this._indicatorArea.remove_child(this._iconBox);
+      }
       this._countLbl.destroy();
       this._countLbl = 0;
       this._enabledIcon.destroy();
       this._enabledIcon = 0;
+      this._iconBox.destroy();
+      this._iconBox = 0;
     }
   }
 }
