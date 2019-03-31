@@ -68,7 +68,8 @@ function disable() {
   this._enabledIcon.destroy();
   this.dnd.removeStatusListener(this.dndListener);
   this._notificationManager.disconnectAll();
-  this._notificationManager.disable();
+  this._settings.disconnectAll();
+  this.dnd.disable();
   let muteSounds = this._settings.shouldMuteSound();
   if (muteSounds && this._hasMutedSound){
     this._soundManager.unmute();

@@ -79,42 +79,6 @@ class NotificationManager {
   constructor() {
     this._appConnections = [];
     this._appSettings = Settings._getSettings();
-    // this._presence = new GnomePresence();
-    //
-    // if (this.getDoNotDisturb()){
-    //   this._presence.status = GnomeSession.PresenceStatus.BUSY;
-    // } else {
-    //   this._presence.status = GnomeSession.PresenceStatus.AVAILABLE;
-    // }
-    //
-    // this._id = this._presence.addStatusListener((status) => {
-    //   this.setDoNotDisturb(status == GnomeSession.PresenceStatus.BUSY);
-    // });
-    // this.onDoNotDisturbChanged(() => {
-    //   this.setDoNotDisturb(this.getDoNotDisturb());
-    // });
-  }
-
-  disable(){
-    // this._presence.status = GnomeSession.PresenceStatus.AVAILABLE;
-  }
-
-  setDoNotDisturb(doNotDisturb) {
-    // this._presence.status = doNotDisturb ? GnomeSession.PresenceStatus.BUSY:
-    //   GnomeSession.PresenceStatus.AVAILABLE;
-    // if (doNotDisturb != this.getDoNotDisturb()) {
-    //   this._appSettings.set_boolean('do-not-disturb', doNotDisturb);
-    // }
-  }
-
-  getDoNotDisturb() {
-    return false;//this._appSettings.get_boolean('do-not-disturb');
-  }
-
-  onDoNotDisturbChanged(fn) {
-    // var id = this._appSettings.connect('changed::do-not-disturb', fn);
-    // this._appConnections.push(id);
-    return 0;//id;
   }
 
   /**
