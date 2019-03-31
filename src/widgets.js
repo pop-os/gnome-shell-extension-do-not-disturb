@@ -125,7 +125,8 @@ class DoNotDisturbIcon {
    * Represents a do not disturb icon in the system status area of the panel.
    * @constructor
    */
-  constructor() {
+  constructor(settingsManager) {
+    this._settings = settingsManager;
     this._indicatorArea = Main.panel._centerBox; //statusArea.aggregateMenu._indicators;
 
     let localDir = Me.dir.get_path();
@@ -154,9 +155,29 @@ class DoNotDisturbIcon {
     this._iconBox.add_actor(this._countLbl);
     this.showDot = false;
     this.showCount = true;
+    this.showIcon = true;
+    this.shown = false;
+    this.count = 0;
+
+    this._settings.onShowIconChanged(() => {
+      this.showIcon = this._settings.shouldShowIcon();
+      if (this.shown){
+        this.hide();
+        this.show();
+      }
+    });
+    this._settings.onShowCountChanged(() => {
+      this.showCount = this._settings.showCount;
+      this.updateCount(this.count);
+    });
+    this._settings.onShowDotChanged(() => {
+      this.showDot = this._settings.showDot;
+      this.updateCount(this.count);
+    });
   }
 
   updateCount(newCount){
+    this.count = newCount;
     if (newCount == 0){
       this._countLbl.add_style_class_name("hide-dot");
     } else {
@@ -177,8 +198,11 @@ class DoNotDisturbIcon {
    * Shows the status icon.
    */
   show() {
-    this._indicatorArea.add_child(this._iconBox);
-    Main.panel.statusArea.dateMenu._indicator.actor.add_style_class_name("hide-dot");
+    if (this.showIcon){
+      this._indicatorArea.add_child(this._iconBox);
+      Main.panel.statusArea.dateMenu._indicator.actor.add_style_class_name("hide-dot");
+    }
+    this.shown = true;
   }
 
   /**
@@ -189,6 +213,7 @@ class DoNotDisturbIcon {
     if (this._iconBox.get_parent()) {
       this._indicatorArea.remove_child(this._iconBox);
     }
+    this.shown = false;
   }
 
   /**
@@ -206,6 +231,7 @@ class DoNotDisturbIcon {
       this._iconBox.destroy();
       this._iconBox = 0;
     }
+    this._settings.disconnectAll();
   }
 }
 

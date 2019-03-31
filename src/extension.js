@@ -17,28 +17,20 @@ function enable() {
   var dnd = new DND.DoNotDisturb(new System.GnomePresence());
   var notificationCounter = new System.NotificationManager();
   var toggle = new Widget.DoNotDisturbToggle();
-  var icon = new Widget.DoNotDisturbIcon();
+  var icon = new Widget.DoNotDisturbIcon(new Settings.SettingsManager());
   var remote = new Settings.RemoteAPI();
   this.extension = new Extension(dnd, notificationCounter, toggle, icon, remote);
 
   // this._lastMuteState = false;
   // this._hasMutedSound = false;
 
-  // this._settings = new Settings.SettingsManager();
   // this._soundManager = new System.AudioManager();
-
-  // _addListeners();
-}
-
-function _addListeners(){
-  // _onUserSettingsChanged(() => _sync(this.dnd.isEnabled()));
 }
 
 /**
  * Disables the extension. Tears down all UI components.
  */
 function disable() {
-  // this._settings.disconnectAll();
   // let muteSounds = this._settings.shouldMuteSound();
   // if (muteSounds && this._hasMutedSound){
     // this._soundManager.unmute();
@@ -50,18 +42,7 @@ function disable() {
  * Updates the UI based on the _settings. Includes switching the toggle state and showing the status icon.
  */
 function settingsChanged() {
-  let showIcon = this._settings.shouldShowIcon();
   let muteSounds = this._settings.shouldMuteSound();
-
-  this._enabledIcon.showDot = this._settings.showDot;
-  this._enabledIcon.showCount = this._settings.showCount;
-
-  if (enabled && showIcon) {
-    this._enabledIcon.hide();
-    this._enabledIcon.show();
-  } else {
-    this._enabledIcon.hide();
-  }
 
   if (enabled && muteSounds) {
     this._soundManager.mute();

@@ -22,4 +22,4 @@ Extension
 10. Disables DND when disabled DONE
 11. Activates by remote DONE
 12. Keeps remote in sync DONE
-13. Reflects the initial state of the remote
+13. Reflects the initial state of the remote DONE
