@@ -16,10 +16,10 @@ function init() {}
 function enable() {
   var dnd = new DND.DoNotDisturb(new System.GnomePresence());
   var toggle = new Widget.DoNotDisturbToggle();
-  var icon = new Widget.DoNotDisturbIcon(new Settings.SettingsManager(), new System.NotificationManager());
+  var indicator = new Widget.DoNotDisturbIcon(new Settings.SettingsManager(), new System.NotificationManager());
   var remote = new Settings.RemoteAPI();
   var audio = new System.AudioManager(new Settings.SettingsManager());
-  this.extension = new Extension(dnd, toggle, icon, remote, audio);
+  this.extension = new Extension(dnd, toggle, indicator, remote, audio);
 }
 
 /**
