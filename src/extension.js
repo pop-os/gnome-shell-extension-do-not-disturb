@@ -25,8 +25,6 @@ function enable() {
 
   // this._settings = new Settings.SettingsManager();
   // this._soundManager = new System.AudioManager();
-  // this._notificationManager = new System.NotificationManager();
-  // this._enabledIcon.updateCount(this._notificationManager.notificationCount)
 
   // _addListeners();
 }
@@ -41,7 +39,6 @@ function _addListeners(){
  */
 function disable() {
   // this._settings.disconnectAll();
-  // this.dnd.disable();
   // let muteSounds = this._settings.shouldMuteSound();
   // if (muteSounds && this._hasMutedSound){
     // this._soundManager.unmute();
@@ -52,7 +49,7 @@ function disable() {
 /**
  * Updates the UI based on the _settings. Includes switching the toggle state and showing the status icon.
  */
-function _sync(enabled) {
+function settingsChanged() {
   let showIcon = this._settings.shouldShowIcon();
   let muteSounds = this._settings.shouldMuteSound();
 
@@ -65,8 +62,6 @@ function _sync(enabled) {
   } else {
     this._enabledIcon.hide();
   }
-
-  this._enabledIcon.updateCount(this._notificationManager.notificationCount);
 
   if (enabled && muteSounds) {
     this._soundManager.mute();
