@@ -21,36 +21,11 @@ function enable() {
   var remote = new Settings.RemoteAPI();
   var audio = new System.AudioManager(new Settings.SettingsManager());
   this.extension = new Extension(dnd, notificationCounter, toggle, icon, remote, audio);
-
-  // this._lastMuteState = false;
-  // this._hasMutedSound = false;
 }
 
 /**
  * Disables the extension. Tears down all UI components.
  */
 function disable() {
-  // let muteSounds = this._settings.shouldMuteSound();
-  // if (muteSounds && this._hasMutedSound){
-    // this._soundManager.unmute();
-  // }
   this.extension.destroy();
-}
-
-/**
- * Updates the UI based on the _settings. Includes switching the toggle state and showing the status icon.
- */
-function settingsChanged() {
-  let muteSounds = this._settings.shouldMuteSound();
-
-  if (enabled && muteSounds) {
-    this._soundManager.mute();
-    this._hasMutedSound = true;
-  } else if ((muteSounds || this._lastMuteState) && this._hasMutedSound) {
-    this._soundManager.unmute();
-    this._hasMutedSound = false;
-  }
-
-  this._lastMuteState = muteSounds;
-
 }
