@@ -161,7 +161,7 @@ class RemoteAPI {
     return this.listeners.push(listener) - 1;
   }
 
-  remoteRemoteListener(id) {
+  removeRemoteListener(id) {
     if (id < 0 || id >= this.listeners.length){
       return;
     }
