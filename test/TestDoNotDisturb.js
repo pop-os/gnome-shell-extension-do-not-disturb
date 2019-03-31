@@ -38,6 +38,7 @@ function testSuite() {
       var listener = new BooleanSetter();
 
       var id = dnd.addStatusListener(listener.setValue);
+      expect(id).toEqual(0);
       dnd.enable();
       expect(listener.getValue()).toEqual(true);
 
@@ -48,6 +49,38 @@ function testSuite() {
       dnd.enable();
       expect(listener.getValue()).toEqual(false);
 		});
+
+    it('should notify listener when first added', function() {
+      var presence = new MockPresence();
+      var dnd = new DoNotDisturb(presence);
+      var listener = new BooleanSetter();
+
+      dnd.enable();
+      var id = dnd.addStatusListener(listener.setValue);
+      expect(listener.getValue()).toEqual(true);
+      dnd.removeStatusListener(id);
+    });
+
+    it('should ignore undefined listeners', function() {
+      var presence = new MockPresence();
+      var dnd = new DoNotDisturb(presence);
+
+      var id = dnd.addStatusListener(null);
+      expect(id).toEqual(-1);
+    });
+
+    it('should ignore invalid ids', function() {
+      var presence = new MockPresence();
+      var dnd = new DoNotDisturb(presence);
+      var listener = new BooleanSetter();
+
+      var id = dnd.addStatusListener(listener.setValue);
+      dnd.removeStatusListener(-1);
+      dnd.removeStatusListener(2);
+      dnd.enable();
+      expect(listener.getValue()).toEqual(true);
+    });
+
 	});
 
 }

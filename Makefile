@@ -39,5 +39,8 @@ install: all
 	mkdir -p $(INSTALLBASE)/$(INSTALLNAME)
 	cp -r _build/* $(INSTALLBASE)/$(INSTALLNAME)/
 
+test: all
+	gjs lib/gjsunit.js
+
 zip-file: all
 	cd _build && zip -qr "../$(UUID)$(VSTRING).zip" .

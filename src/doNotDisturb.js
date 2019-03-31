@@ -44,11 +44,17 @@ class DoNotDisturb {
    * @return {Integer} the ID of the listener
    */
   addStatusListener(listener){
+
+    if (listener == null){
+      return -1;
+    }
+
     this.presenceListernerID = this.presence.addStatusListener((status) => {
       this.listeners.forEach((fn) => {
         fn(status == BUSY);
       });
     });
+    listener(this.isEnabled());
     return this.listeners.push(listener) - 1;
   }
 
@@ -57,6 +63,9 @@ class DoNotDisturb {
    * @param  {Integer} id the ID of the status listener
    */
   removeStatusListener(id){
+    if (id < 0 || id >= this.listeners.length){
+      return;
+    }
     this.listeners.splice(id, 1);
     if (this.listeners.length == 0) {
       this.presence.removeStatusListener(this.presenceListernerID);

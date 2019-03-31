@@ -1,0 +1,9 @@
+1. Enable DND -> Presence is busy DONE
+2. Disable DND -> Presence is available DONE
+3. Enable DND -> Listeners are notified DONE
+4. Disable DND -> Listeners are notified DONE
+5. DND remove listener -> listener is no longer notified DONE
+6. DND add listener -> Listener is notified DONE
+7. Listener is called when first registered DONE
+8. Null listeners are ignored DONE
+9. Ignores invalid IDs DONE
