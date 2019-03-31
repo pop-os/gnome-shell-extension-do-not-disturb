@@ -6,6 +6,7 @@ const DoNotDisturb = imports.doNotDisturb.DoNotDisturb;
 const MockNotificationCounter = imports.MockNotificationCounter.MockNotificationCounter;
 const MockDNDToggle = imports.MockDNDToggle.MockDNDToggle;
 const MockDNDIndicator = imports.MockDNDIndicator.MockDNDIndicator;
+const MockRemoteAPI = imports.MockRemoteAPI.MockRemoteAPI;
 const Extension = imports.dndExtension.Extension;
 
 function testSuite() {
@@ -17,8 +18,9 @@ function testSuite() {
       var dnd = new DoNotDisturb(new MockPresence());
 			var toggle = new MockDNDToggle();
 			var indicator = new MockDNDIndicator();
+			var remote = new MockRemoteAPI();
 
-      var extension = new Extension(dnd, notificationCounter, toggle, indicator);
+      var extension = new Extension(dnd, notificationCounter, toggle, indicator, remote);
 
       extension.enable();
       expect(dnd.isEnabled()).toEqual(true);
@@ -34,8 +36,9 @@ function testSuite() {
       var dnd = new DoNotDisturb(new MockPresence());
 			var toggle = new MockDNDToggle();
 			var indicator = new MockDNDIndicator();
+			var remote = new MockRemoteAPI();
 
-			var extension = new Extension(dnd, notificationCounter, toggle, indicator);
+			var extension = new Extension(dnd, notificationCounter, toggle, indicator, remote);
 
       dnd.enable();
       expect(extension.isEnabled()).toEqual(true);
@@ -49,8 +52,9 @@ function testSuite() {
 			var dnd = new DoNotDisturb(new MockPresence());
 			var toggle = new MockDNDToggle();
 			var indicator = new MockDNDIndicator();
+			var remote = new MockRemoteAPI();
 
-			var extension = new Extension(dnd, notificationCounter, toggle, indicator);
+			var extension = new Extension(dnd, notificationCounter, toggle, indicator, remote);
 
 			expect(toggle.shown).toEqual(true);
 
@@ -66,8 +70,9 @@ function testSuite() {
 			var dnd = new DoNotDisturb(new MockPresence());
 			var toggle = new MockDNDToggle();
 			var indicator = new MockDNDIndicator();
+			var remote = new MockRemoteAPI();
 
-			var extension = new Extension(dnd, notificationCounter, toggle, indicator);
+			var extension = new Extension(dnd, notificationCounter, toggle, indicator, remote);
 
 			extension.enable();
 
@@ -86,17 +91,21 @@ function testSuite() {
 
 			notificationCounter.notificationCount = 10;
 			expect(indicator.count).toEqual(0);
+
+			remote.setRemote(true);
+			expect(extension.isEnabled()).toEqual(false);
 		});
 
-		it('should reflect the initial state of DND', function(){
+		it('should reflect the initial state of the remote', function(){
 			var notificationCounter = new MockNotificationCounter();
 			var dnd = new DoNotDisturb(new MockPresence());
 			var toggle = new MockDNDToggle();
 			var indicator = new MockDNDIndicator();
+			var remote = new MockRemoteAPI();
 
-			dnd.enable();
+			remote.setRemote(true);
 
-			var extension = new Extension(dnd, notificationCounter, toggle, indicator);
+			var extension = new Extension(dnd, notificationCounter, toggle, indicator, remote);
 
 			expect(toggle.getToggleState()).toEqual(true);
 			expect(extension.isEnabled()).toEqual(true);
@@ -107,8 +116,9 @@ function testSuite() {
 			var dnd = new DoNotDisturb(new MockPresence());
 			var toggle = new MockDNDToggle();
 			var indicator = new MockDNDIndicator();
+			var remote = new MockRemoteAPI();
 
-			var extension = new Extension(dnd, notificationCounter, toggle, indicator);
+			var extension = new Extension(dnd, notificationCounter, toggle, indicator, remote);
 
 			expect(indicator.shown).toEqual(false);
 
@@ -124,16 +134,49 @@ function testSuite() {
 			var dnd = new DoNotDisturb(new MockPresence());
 			var toggle = new MockDNDToggle();
 			var indicator = new MockDNDIndicator();
+			var remote = new MockRemoteAPI();
 
 			notificationCounter.notificationCount = 1;
 
-			var extension = new Extension(dnd, notificationCounter, toggle, indicator);
+			var extension = new Extension(dnd, notificationCounter, toggle, indicator, remote);
 
 			expect(indicator.count).toEqual(1);
 
 			notificationCounter.notificationCount = 10;
 
 			expect(indicator.count).toEqual(10);
+		});
+
+		it('should toggle through the remote', function(){
+			var notificationCounter = new MockNotificationCounter();
+			var dnd = new DoNotDisturb(new MockPresence());
+			var toggle = new MockDNDToggle();
+			var indicator = new MockDNDIndicator();
+			var remote = new MockRemoteAPI();
+
+			var extension = new Extension(dnd, notificationCounter, toggle, indicator, remote);
+
+			remote.setRemote(true);
+			expect(extension.isEnabled()).toEqual(true);
+
+			remote.setRemote(false);
+			expect(extension.isEnabled()).toEqual(false);
+		});
+
+		it('should keep the remote in sync', function(){
+			var notificationCounter = new MockNotificationCounter();
+			var dnd = new DoNotDisturb(new MockPresence());
+			var toggle = new MockDNDToggle();
+			var indicator = new MockDNDIndicator();
+			var remote = new MockRemoteAPI();
+
+			var extension = new Extension(dnd, notificationCounter, toggle, indicator, remote);
+
+			extension.enable();
+			expect(remote.getRemote()).toEqual(true);
+
+			extension.disable();
+			expect(remote.getRemote()).toEqual(false);
 		});
 
 	});

@@ -1,9 +1,10 @@
 class Extension {
-  constructor(dnd, notificationCounter, toggle, indicator){
+  constructor(dnd, notificationCounter, toggle, indicator, remote){
     this.dnd = dnd;
     this.notificationCounter = notificationCounter;
     this.toggle = toggle;
     this.indicator = indicator;
+    this.remote = remote;
 
     this.enabled = false;
 
@@ -17,19 +18,24 @@ class Extension {
       }
     });
 
-    this.dndID = this.dnd.addStatusListener((dndEnabled) => {
-      if (dndEnabled){
-        this.enable();
-      } else {
-        this.disable();
-      }
-    });
+    this.dndID = this.dnd.addStatusListener((dndEnabled) => this._setDND(dndEnabled));
+
+    this.remoteID = this.remote.addRemoteListener((dndEnabled) => this._setDND(dndEnabled));
 
     this.indicator.updateCount(this.notificationCounter.notificationCount);
-
     this.notificationListenerID = this.notificationCounter.addNotificationCountListener((count) => {
       this.indicator.updateCount(count);
     });
+
+    this._setDND(this.remote.getRemote());
+  }
+
+  _setDND(enabled){
+    if (enabled){
+      this.enable();
+    } else {
+      this.disable();
+    }
   }
 
   /**
@@ -43,6 +49,7 @@ class Extension {
     this.dnd.enable();
     this.toggle.setToggleState(true);
     this.indicator.show();
+    this.remote.setRemote(true);
   }
 
   /**
@@ -56,6 +63,7 @@ class Extension {
     this.dnd.disable();
     this.toggle.setToggleState(false);
     this.indicator.hide();
+    this.remote.setRemote(false);
   }
 
   /**
@@ -71,6 +79,7 @@ class Extension {
   destroy(){
     this.enabled = false;
     this.dnd.removeStatusListener(this.dndID);
+    this.remote.removeRemoteListener(this.remoteID);
     this.notificationCounter.removeNotificationCountListener(this.notificationListenerID);
     this.toggle.destroy();
     this.indicator.destroy();

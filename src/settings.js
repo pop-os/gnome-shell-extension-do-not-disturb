@@ -46,30 +46,6 @@ class SettingsManager {
   }
 
   /**
-   * Calls a function when the status of the do not disturb setting has changed.
-   *
-   * @param {() => ()} fn - The function to call when the do not disturb setting is changed.
-   */
-  onExternalDoNotDisturbChanged(fn) {
-    var id = this._appSettings.connect('changed::do-not-disturb', fn);
-    this.connections.push(id);
-  }
-
-  /**
-   * @return {Boolean} true if the external do not disturb is on, false otherwise
-   */
-  getExternalDoNotDisturb() {
-    return this._appSettings.get_boolean('do-not-disturb');
-  }
-
-  /**
-   * @param {Boolean} dnd true if the external do not disturb should be on, false otherwise
-   */
-  setExternalDoNotDisturb(dnd) {
-    this._appSettings.set_boolean('do-not-disturb', dnd);
-  }
-
-  /**
    * Determines if the sound should be muted when do not disturb is enabled.
    *
    * @returns {boolean} - True if the sound should be muted when do not disturb is enabled, false otherwise.
@@ -156,6 +132,58 @@ class SettingsManager {
     this.connections = [];
   }
 
+}
+
+class RemoteAPI {
+  constructor() {
+    this._appSettings = _getSettings();
+    this.listeners = [];
+
+    this.id = this._appSettings.connect('changed::do-not-disturb', () => {
+      this.listeners.forEach((fn) => fn(this.getRemote()));
+    });
+  }
+
+  /**
+   * Calls a function when the status of the do not disturb setting has changed.
+   *
+   * @param {() => ()} listener - The function to call when the do not disturb setting is changed.
+   */
+  addRemoteListener(listener) {
+    if (listener == null){
+      return -1;
+    }
+    if (this.listeners.length == 0){
+      this.id = this._appSettings.connect('changed::do-not-disturb', () => {
+        this.listeners.forEach((fn) => fn(this.getRemote()));
+      });
+    }
+    return this.listeners.push(listener) - 1;
+  }
+
+  remoteRemoteListener(id) {
+    if (id < 0 || id >= this.listeners.length){
+      return;
+    }
+    this.listeners.splice(id, 1);
+    if (this.listeners.length == 0) {
+      this._appSettings.disconnect(this.id);
+    }
+  }
+
+  /**
+   * @return {Boolean} true if the external do not disturb is on, false otherwise
+   */
+  getRemote() {
+    return this._appSettings.get_boolean('do-not-disturb');
+  }
+
+  /**
+   * @param {Boolean} dnd true if the external do not disturb should be on, false otherwise
+   */
+  setRemote(dnd) {
+    this._appSettings.set_boolean('do-not-disturb', dnd);
+  }
 }
 
 

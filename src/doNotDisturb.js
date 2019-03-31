@@ -49,11 +49,13 @@ class DoNotDisturb {
       return -1;
     }
 
-    this.presenceListernerID = this.presence.addStatusListener((status) => {
-      this.listeners.forEach((fn) => {
-        fn(status == BUSY);
+    if (this.listeners.length == 0){
+      this.presenceListernerID = this.presence.addStatusListener((status) => {
+        this.listeners.forEach((fn) => {
+          fn(status == BUSY);
+        });
       });
-    });
+    }
     listener(this.isEnabled());
     return this.listeners.push(listener) - 1;
   }

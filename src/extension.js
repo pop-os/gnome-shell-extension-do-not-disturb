@@ -18,7 +18,8 @@ function enable() {
   var notificationCounter = new System.NotificationManager();
   var toggle = new Widget.DoNotDisturbToggle();
   var icon = new Widget.DoNotDisturbIcon();
-  this.extension = new Extension(dnd, notificationCounter, toggle, icon);
+  var remote = new Settings.RemoteAPI();
+  this.extension = new Extension(dnd, notificationCounter, toggle, icon, remote);
 
   // this._lastMuteState = false;
   // this._hasMutedSound = false;
@@ -31,7 +32,6 @@ function enable() {
 
 function _addListeners(){
   // _onUserSettingsChanged(() => _sync(this.dnd.isEnabled()));
-  // this._settings.onExternalDoNotDisturbChanged(() => _setDND(this._settings.getExternalDoNotDisturb()));
 }
 
 /**
@@ -73,11 +73,4 @@ function settingsChanged() {
 
   this._lastMuteState = muteSounds;
 
-  if (enabled != this._disturbToggle.getToggleState()){
-    this._disturbToggle.setToggleState(enabled);
-  }
-
-  if (enabled != this._settings.getExternalDoNotDisturb()){
-    this._settings.setExternalDoNotDisturb(enabled);
-  }
 }
