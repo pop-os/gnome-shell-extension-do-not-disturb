@@ -3,6 +3,7 @@ const Settings = Me.imports.settings;
 const System = Me.imports.system;
 const Widget = Me.imports.widgets;
 const DND = Me.imports.doNotDisturb;
+const Extension = Me.imports.dndExtension.Extension;
 
 /**
  * Called when the extension is loaded.
@@ -13,65 +14,48 @@ function init() {}
  * Enable the do not disturb extension. Adds all UI elements and monitors the settings object.
  */
 function enable() {
-  this.dnd = new DND.DoNotDisturb(new System.GnomePresence());
+  var dnd = new DND.DoNotDisturb(new System.GnomePresence());
+  var notificationCounter = new System.NotificationManager();
+  var toggle = new Widget.DoNotDisturbToggle();
+  var icon = new Widget.DoNotDisturbIcon();
+  this.extension = new Extension(dnd, notificationCounter, toggle, icon);
 
-  this._lastMuteState = false;
-  this._hasMutedSound = false;
+  // this._lastMuteState = false;
+  // this._hasMutedSound = false;
 
-  this._disturbToggle = new Widget.DoNotDisturbToggle();
-  this._disturbToggle.setToggleState(this.dnd.isEnabled());
-  this._disturbToggle.show();
+  // this._settings = new Settings.SettingsManager();
+  // this._soundManager = new System.AudioManager();
+  // this._notificationManager = new System.NotificationManager();
+  // this._enabledIcon.updateCount(this._notificationManager.notificationCount)
 
-  this._enabledIcon = new Widget.DoNotDisturbIcon();
-
-  this._settings = new Settings.SettingsManager();
-  this._soundManager = new System.AudioManager();
-  this._notificationManager = new System.NotificationManager();
-  this._enabledIcon.updateCount(this._notificationManager.notificationCount)
-
-  _addListeners();
+  // _addListeners();
 }
 
 function _addListeners(){
-  this.notificationListenerID = this._notificationManager.addNotificationCountListener((count) => {
-    this._enabledIcon.updateCount(count);
-  });
-  this.dndListener = this.dnd.addStatusListener((enabled) => _sync(enabled));
-  this._disturbToggle.onToggleStateChanged(() => _setDND(this._disturbToggle.getToggleState()));
-  _onUserSettingsChanged(() => _sync(this.dnd.isEnabled()));
-  this._settings.onExternalDoNotDisturbChanged(() => _setDND(this._settings.getExternalDoNotDisturb()));
-}
-
-function _onUserSettingsChanged(fn){
-  this._settings.onShowIconChanged(fn);
-  this._settings.onMuteSoundChanged(fn);
-  this._settings.onShowCountChanged(fn);
-  this._settings.onShowDotChanged(fn);
-}
-
-function _setDND(enabled){
-  if (enabled){
-    this.dnd.enable();
-  } else {
-    this.dnd.disable();
-  }
+  // this.notificationListenerID = this._notificationManager.addNotificationCountListener((count) => {
+    // this._enabledIcon.updateCount(count);
+  // });
+  // this.dndListener = this.dnd.addStatusListener((enabled) => _sync(enabled));
+  // this._disturbToggle.onToggleStateChanged(() => _setDND(this._disturbToggle.getToggleState()));
+  // _onUserSettingsChanged(() => _sync(this.dnd.isEnabled()));
+  // this._settings.onExternalDoNotDisturbChanged(() => _setDND(this._settings.getExternalDoNotDisturb()));
 }
 
 /**
  * Disables the extension. Tears down all UI components.
  */
 function disable() {
-  this._notificationManager.removeNotificationCountListener(this.notificationListenerID);
-  this._disturbToggle.destroy();
-  this._enabledIcon.destroy();
-  this.dnd.removeStatusListener(this.dndListener);
-  this._notificationManager.disconnectAll();
-  this._settings.disconnectAll();
-  this.dnd.disable();
-  let muteSounds = this._settings.shouldMuteSound();
-  if (muteSounds && this._hasMutedSound){
-    this._soundManager.unmute();
-  }
+  // this._notificationManager.removeNotificationCountListener(this.notificationListenerID);
+  // this._disturbToggle.destroy();
+  // this._enabledIcon.destroy();
+  // this.dnd.removeStatusListener(this.dndListener);
+  // this._settings.disconnectAll();
+  // this.dnd.disable();
+  // let muteSounds = this._settings.shouldMuteSound();
+  // if (muteSounds && this._hasMutedSound){
+    // this._soundManager.unmute();
+  // }
+  this.extension.destroy();
 }
 
 /**

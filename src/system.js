@@ -77,8 +77,6 @@ class AudioManager {
 class NotificationManager {
 
   constructor() {
-    this._appConnections = [];
-    this._appSettings = Settings._getSettings();
   }
 
   /**
@@ -120,15 +118,6 @@ class NotificationManager {
     ids.forEach((id) => {
       Main.messageTray.disconnect(id);
     })
-  }
-
-  disconnectAll() {
-    this._appConnections.forEach((id) => {
-      this._appSettings.disconnect(id);
-    });
-    this._appConnections = [];
-
-    // this._presence.removeStatusListener(this._id);
   }
 }
 
