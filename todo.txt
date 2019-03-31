@@ -18,3 +18,4 @@ Extension
 7. Toggle reflects initial state of DND DONE
 8. Displays the indicator when it is on DONE
 9. Icon count reflects notification count DONE
+10. Disables DND when disabled

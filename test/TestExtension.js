@@ -69,9 +69,12 @@ function testSuite() {
 
 			var extension = new Extension(dnd, notificationCounter, toggle, indicator);
 
+			extension.enable();
+
 			extension.destroy();
 			expect(toggle.shown).toEqual(false);
 			expect(indicator.shown).toEqual(false);
+			expect(dnd.isEnabled()).toEqual(false);
 
 			toggle.setToggleState(true);
 			expect(extension.isEnabled()).toEqual(false);
@@ -131,7 +134,6 @@ function testSuite() {
 			notificationCounter.notificationCount = 10;
 
 			expect(indicator.count).toEqual(10);
-
 		});
 
 	});

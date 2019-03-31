@@ -69,9 +69,11 @@ class Extension {
    * Destroy the extension and its components
    */
   destroy(){
+    this.enabled = false;
     this.dnd.removeStatusListener(this.dndID);
     this.notificationCounter.removeNotificationCountListener(this.notificationListenerID);
     this.toggle.destroy();
     this.indicator.destroy();
+    this.dnd.disable();
   }
 }

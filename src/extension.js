@@ -32,11 +32,6 @@ function enable() {
 }
 
 function _addListeners(){
-  // this.notificationListenerID = this._notificationManager.addNotificationCountListener((count) => {
-    // this._enabledIcon.updateCount(count);
-  // });
-  // this.dndListener = this.dnd.addStatusListener((enabled) => _sync(enabled));
-  // this._disturbToggle.onToggleStateChanged(() => _setDND(this._disturbToggle.getToggleState()));
   // _onUserSettingsChanged(() => _sync(this.dnd.isEnabled()));
   // this._settings.onExternalDoNotDisturbChanged(() => _setDND(this._settings.getExternalDoNotDisturb()));
 }
@@ -45,10 +40,6 @@ function _addListeners(){
  * Disables the extension. Tears down all UI components.
  */
 function disable() {
-  // this._notificationManager.removeNotificationCountListener(this.notificationListenerID);
-  // this._disturbToggle.destroy();
-  // this._enabledIcon.destroy();
-  // this.dnd.removeStatusListener(this.dndListener);
   // this._settings.disconnectAll();
   // this.dnd.disable();
   // let muteSounds = this._settings.shouldMuteSound();
