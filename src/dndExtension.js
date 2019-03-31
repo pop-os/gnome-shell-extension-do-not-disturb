@@ -1,7 +1,6 @@
 class Extension {
-  constructor(dnd, notificationCounter, toggle, indicator, remote, audio){
+  constructor(dnd, toggle, indicator, remote, audio){
     this.dnd = dnd;
-    this.notificationCounter = notificationCounter;
     this.toggle = toggle;
     this.indicator = indicator;
     this.remote = remote;
@@ -22,11 +21,6 @@ class Extension {
     this.dndID = this.dnd.addStatusListener((dndEnabled) => this._setDND(dndEnabled));
 
     this.remoteID = this.remote.addRemoteListener((dndEnabled) => this._setDND(dndEnabled));
-
-    this.indicator.updateCount(this.notificationCounter.notificationCount);
-    this.notificationListenerID = this.notificationCounter.addNotificationCountListener((count) => {
-      this.indicator.updateCount(count);
-    });
 
     this._setDND(this.remote.getRemote());
   }
@@ -83,7 +77,6 @@ class Extension {
     this.enabled = false;
     this.dnd.removeStatusListener(this.dndID);
     this.remote.removeRemoteListener(this.remoteID);
-    this.notificationCounter.removeNotificationCountListener(this.notificationListenerID);
     this.toggle.destroy();
     this.indicator.destroy();
     this.dnd.disable();

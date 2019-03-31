@@ -18,7 +18,7 @@ Extension
 6. Can destroy toggle when destroyed DONE
 7. Toggle reflects initial state of DND DONE INVALIDATED BY TEST 13
 8. Displays the indicator when it is on DONE
-9. Icon count reflects notification count DONE
+9. Icon count reflects notification count DONE INVALIDATED
 10. Disables DND when disabled DONE
 11. Activates by remote DONE
 12. Keeps remote in sync DONE

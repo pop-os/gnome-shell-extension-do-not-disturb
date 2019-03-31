@@ -15,12 +15,11 @@ function init() {}
  */
 function enable() {
   var dnd = new DND.DoNotDisturb(new System.GnomePresence());
-  var notificationCounter = new System.NotificationManager();
   var toggle = new Widget.DoNotDisturbToggle();
-  var icon = new Widget.DoNotDisturbIcon(new Settings.SettingsManager());
+  var icon = new Widget.DoNotDisturbIcon(new Settings.SettingsManager(), new System.NotificationManager());
   var remote = new Settings.RemoteAPI();
   var audio = new System.AudioManager(new Settings.SettingsManager());
-  this.extension = new Extension(dnd, notificationCounter, toggle, icon, remote, audio);
+  this.extension = new Extension(dnd, toggle, icon, remote, audio);
 }
 
 /**

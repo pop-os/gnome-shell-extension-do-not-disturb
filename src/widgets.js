@@ -125,8 +125,9 @@ class DoNotDisturbIcon {
    * Represents a do not disturb icon in the system status area of the panel.
    * @constructor
    */
-  constructor(settingsManager) {
+  constructor(settingsManager, notificationCounter) {
     this._settings = settingsManager;
+    this.notificationCounter = notificationCounter;
     this._indicatorArea = Main.panel._centerBox; //statusArea.aggregateMenu._indicators;
 
     let localDir = Me.dir.get_path();
@@ -157,7 +158,7 @@ class DoNotDisturbIcon {
     this.showCount = this._settings.showCount;
     this.showIcon = this._settings.shouldShowIcon();
     this.shown = false;
-    this.count = 0;
+    this.count = this.notificationCounter.notificationCount;
 
     this._settings.onShowIconChanged(() => {
       this.showIcon = this._settings.shouldShowIcon();
@@ -173,6 +174,9 @@ class DoNotDisturbIcon {
     this._settings.onShowDotChanged(() => {
       this.showDot = this._settings.showDot;
       this.updateCount(this.count);
+    });
+    this.notificationListenerID = this.notificationCounter.addNotificationCountListener((count) => {
+      this.updateCount(count);
     });
   }
 
@@ -232,6 +236,7 @@ class DoNotDisturbIcon {
       this._iconBox = 0;
     }
     this._settings.disconnectAll();
+    this.notificationCounter.removeNotificationCountListener(this.notificationListenerID);
   }
 }
 

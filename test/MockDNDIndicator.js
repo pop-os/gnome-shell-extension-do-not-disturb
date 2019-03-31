@@ -10,11 +10,6 @@ class MockDNDIndicator {
     this.shown = false;
     this.showDot = false;
     this.showCount = true;
-    this.count = 0;
-  }
-
-  updateCount(newCount){
-    this.count = newCount;
   }
 
   /**
