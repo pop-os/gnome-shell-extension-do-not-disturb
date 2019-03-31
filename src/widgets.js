@@ -153,9 +153,9 @@ class DoNotDisturbIcon {
     this._iconBox = new St.BoxLayout();
     this._iconBox.add_actor(this._enabledIcon);
     this._iconBox.add_actor(this._countLbl);
-    this.showDot = false;
-    this.showCount = true;
-    this.showIcon = true;
+    this.showDot = this._settings.showDot;
+    this.showCount = this._settings.showCount;
+    this.showIcon = this._settings.shouldShowIcon();
     this.shown = false;
     this.count = 0;
 

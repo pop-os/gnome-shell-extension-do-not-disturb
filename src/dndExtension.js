@@ -1,10 +1,11 @@
 class Extension {
-  constructor(dnd, notificationCounter, toggle, indicator, remote){
+  constructor(dnd, notificationCounter, toggle, indicator, remote, audio){
     this.dnd = dnd;
     this.notificationCounter = notificationCounter;
     this.toggle = toggle;
     this.indicator = indicator;
     this.remote = remote;
+    this.audio = audio;
 
     this.enabled = false;
 
@@ -50,6 +51,7 @@ class Extension {
     this.toggle.setToggleState(true);
     this.indicator.show();
     this.remote.setRemote(true);
+    this.audio.mute();
   }
 
   /**
@@ -64,6 +66,7 @@ class Extension {
     this.toggle.setToggleState(false);
     this.indicator.hide();
     this.remote.setRemote(false);
+    this.audio.unmute();
   }
 
   /**

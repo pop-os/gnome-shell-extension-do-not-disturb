@@ -59,18 +59,48 @@ class GnomePresence {
  * A class for managing the audio on Gnome.
  */
 class AudioManager {
+
+  constructor(settingsManager){
+    this._settings = settingsManager;
+    this.shouldMute = this._settings.shouldMuteSound();
+    this.muted = false;
+    this._settings.onMuteSoundChanged(() => {
+      var shouldMute = this._settings.shouldMuteSound();
+      if (this.muted && shouldMute){
+        this._internalMute();
+      } else if (this.muted && !shouldMute){
+        this._internalUnmute();
+      }
+      this.shouldMute = shouldMute;
+    });
+  }
+
+  _internalMute(){
+    _runCmd(["amixer", "-q", "-D", "pulse", "sset", "Master", "mute"]);
+  }
+
+  _internalUnmute(){
+    _runCmd(["amixer", "-q", "-D", "pulse", "sset", "Master", "unmute"]);
+  }
+
   /**
    * Mute the audio stream.
    */
   mute() {
-    _runCmd(["amixer", "-q", "-D", "pulse", "sset", "Master", "mute"]);
+    this.muted = true;
+    if (this.shouldMute){
+      this._internalMute();
+    }
   }
 
   /**
    * Unmute the audio stream.
    */
   unmute() {
-    _runCmd(["amixer", "-q", "-D", "pulse", "sset", "Master", "unmute"]);
+    this.muted = false;
+    if (this.shouldMute){
+      this._internalUnmute();
+    }
   }
 }
 

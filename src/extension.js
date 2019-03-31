@@ -19,12 +19,11 @@ function enable() {
   var toggle = new Widget.DoNotDisturbToggle();
   var icon = new Widget.DoNotDisturbIcon(new Settings.SettingsManager());
   var remote = new Settings.RemoteAPI();
-  this.extension = new Extension(dnd, notificationCounter, toggle, icon, remote);
+  var audio = new System.AudioManager(new Settings.SettingsManager());
+  this.extension = new Extension(dnd, notificationCounter, toggle, icon, remote, audio);
 
   // this._lastMuteState = false;
   // this._hasMutedSound = false;
-
-  // this._soundManager = new System.AudioManager();
 }
 
 /**
