@@ -2,6 +2,9 @@
 const BUSY = 2;
 const AVAILABLE = 0;
 
+/**
+ * A class which can enable do not disturb mode
+ */
 class DoNotDisturb {
 
   /**
@@ -11,11 +14,7 @@ class DoNotDisturb {
   constructor(presence){
     this.presence = presence;
     this.listeners = [];
-    this.presence.addStatusListener(() => {
-      this.listeners.forEach((fn) => {
-        fn(this.isEnabled());
-      });
-    });
+    this.presenceListernerID = -1;
   }
 
   /**
@@ -45,6 +44,11 @@ class DoNotDisturb {
    * @return {Integer} the ID of the listener
    */
   addStatusListener(listener){
+    this.presenceListernerID = this.presence.addStatusListener((status) => {
+      this.listeners.forEach((fn) => {
+        fn(status == BUSY);
+      });
+    });
     return this.listeners.push(listener) - 1;
   }
 
@@ -54,5 +58,8 @@ class DoNotDisturb {
    */
   removeStatusListener(id){
     this.listeners.splice(id, 1);
+    if (this.listeners.length == 0) {
+      this.presence.removeStatusListener(this.presenceListernerID);
+    }
   }
 }

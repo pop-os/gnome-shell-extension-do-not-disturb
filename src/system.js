@@ -40,9 +40,9 @@ class GnomePresence {
    */
   addStatusListener(fn) {
     return this._presence.connectSignal('StatusChanged', (proxy, _sender, [status]) => {
-      // if (proxy.status != status) {
+      if (proxy.status != status) {
         fn(status);
-      // }
+      }
     });
   }
 

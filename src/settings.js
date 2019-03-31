@@ -46,6 +46,30 @@ class SettingsManager {
   }
 
   /**
+   * Calls a function when the status of the do not disturb setting has changed.
+   *
+   * @param {() => ()} fn - The function to call when the do not disturb setting is changed.
+   */
+  onExternalDoNotDisturbChanged(fn) {
+    var id = this._appSettings.connect('changed::do-not-disturb', fn);
+    this.connections.push(id);
+  }
+
+  /**
+   * @return {Boolean} true if the external do not disturb is on, false otherwise
+   */
+  getExternalDoNotDisturb() {
+    return this._appSettings.get_boolean('do-not-disturb');
+  }
+
+  /**
+   * @param {Boolean} dnd true if the external do not disturb should be on, false otherwise
+   */
+  setExternalDoNotDisturb(dnd) {
+    this._appSettings.set_boolean('do-not-disturb', dnd);
+  }
+
+  /**
    * Determines if the sound should be muted when do not disturb is enabled.
    *
    * @returns {boolean} - True if the sound should be muted when do not disturb is enabled, false otherwise.
