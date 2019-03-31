@@ -30,8 +30,6 @@ function enable() {
   this._enabledIcon.updateCount(this._notificationManager.notificationCount)
 
   _addListeners();
-
-  _sync(this.dnd.isEnabled());
 }
 
 function _addListeners(){
