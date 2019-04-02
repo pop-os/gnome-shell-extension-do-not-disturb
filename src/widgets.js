@@ -159,6 +159,7 @@ class DoNotDisturbIcon {
     this.showIcon = this._settings.shouldShowIcon();
     this.shown = false;
     this.count = this.notificationCounter.notificationCount;
+    this.updateCount(this.count);
 
     this._settings.onShowIconChanged(() => {
       this.showIcon = this._settings.shouldShowIcon();
