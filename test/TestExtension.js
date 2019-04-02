@@ -93,6 +93,19 @@ function testSuite() {
 			expect(extension.isEnabled()).toEqual(false);
 		});
 
+		it('should not change remote when destroyed', function(){
+			var dnd = new DoNotDisturb(new MockPresence());
+			var toggle = new MockDNDToggle();
+			var indicator = new MockDNDIndicator();
+			var remote = new MockRemoteAPI();
+			var audio = new MockAudio();
+
+			var extension = new Extension(dnd, toggle, indicator, remote, audio);
+			extension.enable();
+			extension.destroy();
+			expect(remote.getRemote()).toEqual(true);
+		});
+
 		it('should reflect the initial state of the remote', function(){
 			var dnd = new DoNotDisturb(new MockPresence());
 			var toggle = new MockDNDToggle();

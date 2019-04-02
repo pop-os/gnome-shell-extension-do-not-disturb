@@ -23,5 +23,6 @@ Extension
 11. Activates by remote DONE
 12. Keeps remote in sync DONE
 13. Reflects the initial state of the remote DONE
-14. Mutes audio when enabled
-15. Unmutes audio when disabled
+14. Mutes audio when enabled DONE
+15. Unmutes audio when disabled DONE
+16. Leaves remote on if destroyed DONE
