@@ -18,7 +18,7 @@ class Extension {
       }
     });
 
-    this.dndID = this.dnd.addStatusListener((dndEnabled) => this._setDND(dndEnabled));
+    // this.dndID = this.dnd.addStatusListener((dndEnabled) => this._setDND(dndEnabled));
 
     this.remoteID = this.remote.addRemoteListener((dndEnabled) => this._setDND(dndEnabled));
 
@@ -75,7 +75,7 @@ class Extension {
    */
   destroy(){
     this.enabled = false;
-    this.dnd.removeStatusListener(this.dndID);
+    // this.dnd.removeStatusListener(this.dndID);
     this.remote.removeRemoteListener(this.remoteID);
     this.toggle.destroy();
     this.indicator.destroy();
