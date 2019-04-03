@@ -12,8 +12,8 @@ DND
 Extension
 1. Enables DND when on DONE
 2. Disables DND when off DONE
-3. Enables when DND enables DONE
-4. Disables when DND disables DONE
+3. Enables when DND enables DONE INVALIDATED
+4. Disables when DND disables DONE INVALIDATED
 5. Toggle can enable and disable DND DONE
 6. Can destroy toggle when destroyed DONE
 7. Toggle reflects initial state of DND DONE INVALIDATED BY TEST 13
