@@ -1,5 +1,13 @@
 # Changelog - Do not disturb extension
 
+## v2.0.5 - April 3, 2019
+
+**Bug Fixes:**
+- Do not disable DND when the screen goes blank
+
+**Other Changes:**
+- Added support for testing, which should make this more robust to changes
+
 ## v2.0.4 - March 30, 2019
 
 **Bug Fixes:**
