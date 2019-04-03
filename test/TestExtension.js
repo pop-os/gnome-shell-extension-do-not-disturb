@@ -31,22 +31,6 @@ function testSuite() {
       expect(extension.isEnabled()).toEqual(false);
     });
 
-    it('should enable when DND enables', function(){
-      var dnd = new DoNotDisturb(new MockPresence());
-			var toggle = new MockDNDToggle();
-			var indicator = new MockDNDIndicator();
-			var remote = new MockRemoteAPI();
-			var audio = new MockAudio();
-
-			var extension = new Extension(dnd, toggle, indicator, remote, audio);
-
-      dnd.enable();
-      expect(extension.isEnabled()).toEqual(true);
-
-      dnd.disable();
-      expect(extension.isEnabled()).toEqual(false);
-    });
-
 		it('should be affected by a toggle', function(){
 			var dnd = new DoNotDisturb(new MockPresence());
 			var toggle = new MockDNDToggle();
