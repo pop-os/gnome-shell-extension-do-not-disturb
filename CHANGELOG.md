@@ -1,5 +1,10 @@
 # Changelog - Do not disturb extension
 
+## v2.0.6 - April 4, 2019
+
+**Bug Fixes:**
+- Only use provided icon (some themes have problems with the system icon)
+
 ## v2.0.5 - April 3, 2019
 
 **Bug Fixes:**
