@@ -132,15 +132,10 @@ class DoNotDisturbIcon {
 
     let localDir = Me.dir.get_path();
 
-    let icon = "notification-disabled-symbolic";
-    let fallback = "dnd-symbolic";
+    let icon = "dnd-symbolic";
 
     let iconTheme = Gtk.IconTheme.get_default();
     iconTheme.append_search_path(localDir);
-
-    if (!iconTheme.has_icon(icon)) {
-      icon = fallback;
-    }
 
     this._enabledIcon = new St.Icon({
       icon_name: icon,
