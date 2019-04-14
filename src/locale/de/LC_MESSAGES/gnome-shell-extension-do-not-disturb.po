@@ -1,0 +1,46 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Gnome-Shell-Extension Do Not Disturb\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-04-09 18:13+0200\n"
+"PO-Revision-Date: 2018-10-14 07:30-0400\n"
+"Last-Translator: \n"
+"Language-Team: German <mike@barkmin.eu>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.2\n"
+
+#: prefs.js:31
+msgid "Enabled Icon"
+msgstr "Icon anzeigen"
+
+#: prefs.js:31
+msgid "Show an indicator icon when do not disturb is enabled."
+msgstr "Zeige ein Icon, wenn nicht stören aktiviert ist."
+
+#: prefs.js:38
+msgid "Count"
+msgstr "Anzahl"
+
+#: prefs.js:39
+msgid "Dot"
+msgstr "Punkt"
+
+#: prefs.js:40
+msgid "Nothing"
+msgstr "Nichts"
+
+#: prefs.js:50
+msgid "Mute Sounds"
+msgstr "Audio stumm schalten"
+
+#: prefs.js:50
+msgid "Mutes all sound when do not disturb is enabled."
+msgstr "Audio stumm schalten, wenn nicht stören aktiviert ist."
+
+#: widgets.js:40
+msgid "Do not disturb"
+msgstr "Nicht stören"
