@@ -14,7 +14,7 @@ libglib2.0-bin gjs
 To install, clone this repo and use make to install
 
 ```sh
-git clone https://github.com/kylecorry31/gnome-shell-extension-do-not-disturb
+git clone https://github.com/pop-os/gnome-shell-extension-do-not-disturb
 cd gnome-shell-extension-do-not-disturb
 make
 make install
