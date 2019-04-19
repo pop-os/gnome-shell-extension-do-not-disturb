@@ -130,15 +130,12 @@ class DoNotDisturbIcon {
     this.notificationCounter = notificationCounter;
     this._indicatorArea = Main.panel._centerBox; //statusArea.aggregateMenu._indicators;
 
-    let localDir = Me.dir.get_path();
-
-    let icon = "dnd-symbolic";
-
-    let iconTheme = Gtk.IconTheme.get_default();
-    iconTheme.append_search_path(localDir);
+    let icon = "notification-disabled-symbolic";
+    let fallback = "user-busy-symbolic";
 
     this._enabledIcon = new St.Icon({
       icon_name: icon,
+      fallback_icon_name: fallback,
       style_class: 'popup-menu-icon do-not-disturb-icon'
     });
 

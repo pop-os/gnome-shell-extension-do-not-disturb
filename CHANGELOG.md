@@ -1,5 +1,10 @@
 # Changelog - Do not disturb extension
 
+## v2.0.7 - April 19, 2019
+
+**Bug Fixes:**
+- Fix icon not showing up on latest GNOME shell
+
 ## v2.0.6 - April 4, 2019
 
 **Bug Fixes:**
