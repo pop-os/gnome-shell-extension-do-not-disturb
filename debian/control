@@ -1,0 +1,16 @@
+Source: gnome-shell-extension-do-not-disturb
+Section: gnome
+Priority: optional
+Maintainer: Michael Aaron Murphy <michael@system76.com>
+Build-Depends: debhelper (>= 10), libglib2.0-bin, gjs
+Standards-Version: 3.9.8
+Homepage: https://github.com/pop-os/gnome-shell-extension-do-not-disturb
+Vcs-Git: https://github.com/pop-os/gnome-shell-extension-do-not-disturb.git
+
+Package: gnome-shell-extension-do-not-disturb
+Architecture: all
+Depends:
+    gnome-shell (>= 3.26.1),
+    ${misc:Depends}
+Description: GNOME Shell extension to prevent notification pop-ups
+ Extension for GNOME Shell to configure the behavior of pop-up notifications

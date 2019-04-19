@@ -2,7 +2,7 @@
 <schemalist gettext-domain="org-gnome-shell-extensions-kylecorry31-do-not-disturb">
   <schema path="/org/gnome/shell/extensions/kylecorry31-do-not-disturb/" id="org.gnome.shell.extensions.kylecorry31-do-not-disturb">
     <key type="b" name="show-icon">
-        <default>true</default>
+        <default>false</default>
         <summary>Show an indicator icon when do not disturb is enabled.</summary>
         <description></description>
     </key>

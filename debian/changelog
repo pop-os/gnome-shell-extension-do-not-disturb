@@ -1,0 +1,11 @@
+gnome-shell-extension-do-not-disturb (1.0.0) disco; urgency=medium
+
+  * New upstream release
+
+ -- Michael Aaron Murphy <michael@system76.com>  Fri, 19 Apr 2019 10:46:00 -0600
+
+gnome-shell-extension-do-not-disturb (0.1.0) bionic; urgency=medium
+
+  * Initial release.
+
+ -- Jeremy Soller <jeremy@system76.com>  Mon, 12 Mar 2018 15:20:24 -0600
