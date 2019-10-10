@@ -21,3 +21,30 @@ make install
 ```
 
 The extension then must be enabled using Gnome Tweak Tool or https://extensions.gnome.org/local/
+
+## Add Translation
+
+Extract translations into messages.pot:
+
+```
+cd src
+xgettext -k -kN -o messages.pot *.js
+```
+
+Create a new locale. For example sv_SE:
+
+```
+cp -R locale/fr locale/sv_SE
+```
+
+Update the messages in the locale:
+
+```
+msgmerge -U locale/sv_SE/LC_MESSAGES/gnome-shell-extension-do-not-disturb.po messages.pot
+```
+
+Edit the messages in the locale:
+
+```
+xdg-open locale/sv_SE/LC_MESSAGES/gnome-shell-extension-do-not-disturb.po
+```
