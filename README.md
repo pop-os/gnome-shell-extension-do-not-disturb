@@ -8,7 +8,7 @@ Enable or disable do not disturb mode.
 Required dependencies to build on debian platforms are
 
 ```
-libglib2.0-bin gjs
+libglib2.0-bin gjs gettext
 ```
 
 To install, clone this repo and use make to install
