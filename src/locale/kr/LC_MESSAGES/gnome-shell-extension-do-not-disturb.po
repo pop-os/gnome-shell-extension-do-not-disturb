@@ -1,0 +1,46 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Gnome-Shell-Extension Do Not Disturb\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-04-09 18:13+0200\n"
+"PO-Revision-Date: 2020-10-02 13:25-0500\n"
+"Last-Translator: \n"
+"Language-Team: Korean <jhage.codingkr@gmail.com>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 2.3\n"
+
+#: prefs.js:31
+msgid "Enabled Icon"
+msgstr "켬 상태 아이콘"
+
+#: prefs.js:31
+msgid "Show an indicator icon when do not disturb is enabled."
+msgstr "방해금지 시, 표시기 아이콘 보임."
+
+#: prefs.js:38
+msgid "Count"
+msgstr "횟수"
+
+#: prefs.js:39
+msgid "Dot"
+msgstr "점"
+
+#: prefs.js:40
+msgid "Nothing"
+msgstr "아무것도"
+
+#: prefs.js:50
+msgid "Mute Sounds"
+msgstr "무음모드"
+
+#: prefs.js:50
+msgid "Mutes all sound when do not disturb is enabled."
+msgstr "방해금지 시, 무음모드 켬."
+
+#: widgets.js:40
+msgid "Do not disturb"
+msgstr "방해금지"
