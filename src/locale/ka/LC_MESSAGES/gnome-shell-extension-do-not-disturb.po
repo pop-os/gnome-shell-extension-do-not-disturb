@@ -1,0 +1,51 @@
+# Georgian translation for gnome-shell-extension-do-not-disturb
+# Copyright (c) 2025 gnome-shell-extension-do-not-disturb's authors
+# This file is distributed under the same license as the gnome-shell-extension-do-not-disturb package.
+# Ekaterine Papava <papava.e@gtu.ge>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-shell-extension-do-not-disturb\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-13 12:58+0100\n"
+"PO-Revision-Date: 2025-12-13 13:01+0100\n"
+"Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
+"Language-Team: Georgian <(nothing)>\n"
+"Language: ka\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.8\n"
+
+#: prefs.js:31
+msgid "Enabled Icon"
+msgstr "ჩართულობის ხატულა"
+
+#: prefs.js:31
+msgid "Show an indicator icon when do not disturb is enabled."
+msgstr "მაჩვენებელი ხატულას ჩვენება, როცა ჩართულია 'არ შემაწუხოთ'."
+
+#: prefs.js:38
+msgid "Count"
+msgstr "თვლა"
+
+#: prefs.js:39
+msgid "Dot"
+msgstr "წერტილი"
+
+#: prefs.js:40
+msgid "Nothing"
+msgstr "არაფერი"
+
+#: prefs.js:50
+msgid "Mute Sounds"
+msgstr "ხმების დადუმება"
+
+#: prefs.js:50
+msgid "Mutes all sound when do not disturb is enabled."
+msgstr "ყველა ხმის დადუმება, როცა 'არ შემაწუხოთ' აქტიურია."
+
+#: widgets.js:40
+msgid "Do not disturb"
+msgstr "არ შემაწუხოთ"
+
